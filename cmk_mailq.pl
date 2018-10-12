@@ -64,8 +64,8 @@ my $verbose = 0;
 
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
-	blurb => 'Plugin to check load on remote host',
-	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-p <port> (def. 6556)][-t <timeout>] [ -c|--critical=<thresholds (def. 5,5,5)> ] [ -w|--warning=<thresholds> (def. 1,1,1]",
+	blurb => 'Plugin to check mailq length on remote host',
+	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-p <port> (def. 6556)][-t <timeout>] [ -c|--critical=<thresholds> ] [ -w|--warning=<thresholds>",
 	timeout => $TIMEOUT+1
 );
 $np->add_arg (

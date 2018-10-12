@@ -64,8 +64,8 @@ my $verbose = 0;
 
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
-	blurb => 'Plugin to check processes on remote host',
-	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-t <timeout>] [ -c|--critical=<thresholds (def. 5,5,5)> ] [ -w|--warning=<thresholds> (def. 1,1,1]",
+	blurb => 'Plugin to get check_mk agent infos on remote host',
+	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-t <timeout>]",
 	timeout => $TIMEOUT+1
 );
 $np->add_arg (

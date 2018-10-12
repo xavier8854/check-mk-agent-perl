@@ -64,7 +64,7 @@ my $verbose = 0;
 
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
-	blurb => 'Plugin to check load on remote host',
+	blurb => 'Plugin to check memory on remote host',
 	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-p <port> (def. 6556)][-t <timeout>] [ -c|--critical=<thresholds (def. 5,5,5)> ] [ -w|--warning=<thresholds> (def. 1,1,1]",
 	timeout => $TIMEOUT+1
 );
