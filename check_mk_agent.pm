@@ -265,7 +265,6 @@ sub check_uptime(){
 
 sub logD {
 	my ($msg) = @_;
-	$DEBUG = 1;
 	print STDERR "DEBUG: $msg\n" if $DEBUG;
 }
 
