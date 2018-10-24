@@ -1,0 +1,533 @@
+          'mem.cache 0',
+          'mem.free 5437435904',
+          'mem.total 16654921728',
+          'mem.used 11217485824',
+          'swap.free 22315388928',
+          'swap.total 23622320128',
+          'swap.used 1306931200'
+        ];
+
+main::(./cmk_memory.pl:109):    $np->nagios_exit($status, $message );
+  DB<1> x $this->{'sections'}
+0  undef
+  DB<2> x $this
+0  HASH(0x55eb1f135680)
+     empty hash
+  DB<3> q
+[xavier@feanor check-mk-agent-perl]$ perl -d ./cmk_memory.pl -H numenor -d
+
+Loading DB routines from perl5db.pl version 1.51
+Editor support available.
+
+Enter h or 'h h' for help, or 'man perldebug' for more help.
+
+main::(./cmk_memory.pl:50):     my $PROGNAME = basename($0);
+  DB<1> c
+check_mk_agent::check_memory(check_mk_agent.pm:195):
+195:            my $os = $this->get_os();
+  DB<1> x $this->{'sections'}
+0  HASH(0x55eb47f87680)
+   'check_mk' => ARRAY(0x55eb48384b28)
+      0  'Version: 1.6.0i1'
+      1  'AgentOS: freebsd'
+      2  'Hostname: numenor.groumpf.org'
+      3  'AgentDirectory: /usr/local/etc/check_mk'
+      4  'DataDirectory: '
+      5  'SpoolDirectory: '
+      6  'PluginsDirectory: /usr/local/lib/check_mk_agent/plugins'
+      7  'LocalDirectory: /usr/local/lib/check_mk_agent/local'
+   'cpu' => ARRAY(0x55eb48388888)
+      0  '0.25 0.28 0.31 1/122 76887 4'
+   'df' => ARRAY(0x55eb48384c18)
+      0  '/dev/md0    ufs      1015324  620 933480     0%    /var/amavis/tmp'
+   'kernel' => ARRAY(0x55eb48388918)
+      0  1540049198
+      1  'cpu 5517823 0 309880 11006513 11120'
+      2  'ctxt 145620630'
+      3  'processes 376206'
+   'mounts' => ARRAY(0x55eb48387a38)
+      0  "/dev/md0\cI\cI/var/amavis/tmp\cI\cIufs\cIrw\cI\cI2 2"
+   'netctr' => ARRAY(0x55eb483889a8)
+      0  1540049198
+      1  'igb0 3145694055 2596616 0 0 0 0 0 0 84663450 319438 0 0 0 0 0 0'
+      2  'igb1* 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
+      3  'igb2* 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
+      4  'igb3* 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
+      5  'vm-pu 6131560646 2477179 0 0 0 0 0 0 90835694 437784 0 0 0 0 0 0'
+      6  'tap0 1987709 33085 0 0 0 0 0 0 727978 10577 22 0 0 0 0 0'
+      7  'tap1 3869435 64201 0 0 0 0 0 0 6764544 107779 22 0 0 0 0 0'
+   'ntp' => ARRAY(0x55eb48388a98)
+      0  '% 0.freebsd.pool. .POOL.          16 p    -   64    0    0.000    0.000   0.000'
+      1  '+ 195.154.189.15  145.238.203.14   2 u  648 1024  377   10.237    9.652   6.382'
+      2  '* 5.196.160.139   145.238.203.14   2 u  523 1024  377   13.446   10.980   6.380'
+      3  '+ 92.243.6.5      85.199.214.98    2 u   71 1024  377   10.522   11.563   6.221'
+      4  '+ 129.250.35.250  249.224.99.213   2 u  393 1024  377   10.912   11.562   6.570'
+      5  '+ 5.135.3.88      124.216.164.14   2 u  704 1024  377   14.205   10.881   7.022'
+   'postfix_mailq' => ARRAY(0x55eb48388bd0)
+      0  'Mail queue is empty'
+   'ps' => ARRAY(0x55eb48387a80)
+      0  '(root,0,4720,0.0) [kernel]'
+      1  '(root,5416,196,0.0) /sbin/init --'
+      2  '(root,0,16,0.0) [crypto]'
+      3  '(root,0,16,0.0) [crypto returns]'
+      4  '(root,0,32,0.0) [cam]'
+      5  '(root,0,160,0.0) [zfskern]'
+      6  '(root,0,16,0.0) [soaiod1]'
+      7  '(root,0,16,0.0) [soaiod2]'
+      8  '(root,0,16,0.0) [soaiod3]'
+      9  '(root,0,16,0.0) [soaiod4]'
+      10  '(root,0,16,0.0) [audit]'
+      11  '(root,0,64,400.0) [idle]'
+      12  '(root,0,608,0.0) [intr]'
+      13  '(root,0,48,0.0) [geom]'
+      14  '(root,0,240,0.0) [usb]'
+      15  '(root,0,16,0.0) [sctp_iterator]'
+      16  '(root,0,16,0.0) [acpi_thermal]'
+      17  '(root,0,16,0.0) [acpi_cooling1]'
+      18  '(root,0,16,0.0) [rand_harvestq]'
+      19  '(root,0,16,0.0) [ipmi0: kcs]'
+      20  '(root,0,16,0.0) [enc_daemon0]'
+      21  '(root,0,48,0.0) [pagedaemon]'
+      22  '(root,0,16,0.0) [vmdaemon]'
+      23  '(root,0,16,0.0) [pagezero]'
+      24  '(root,0,32,0.0) [bufdaemon]'
+      25  '(root,0,16,0.0) [bufspacedaemon]'
+      26  '(root,0,16,0.0) [syncer]'
+      27  '(root,0,16,0.0) [vnlru]'
+      28  '(root,6584,1812,0.0) /usr/sbin/moused -p /dev/ums0 -t auto -I /'
+      29  '(root,9176,1164,0.0) /sbin/devd'
+      30  '(root,0,16,0.0) [pf purge]'
+      31  '(root,0,16,0.0) [accounting]'
+      32  '(root,6412,2132,0.0) /usr/sbin/syslogd -l /var/run/log -l /var/'
+      33  '(ldap,1073264,3180,0.0) /usr/local/libexec/slapd -h ldapi://%2fvar'
+      34  '(bind,86732,49828,0.0) /usr/local/sbin/named -t /var/named/chroot'
+      35  '(root,10364,2688,0.0) /usr/local/sbin/apcupsd --kill-on-powerfai'
+      36  '(root,6780,2420,0.0) /usr/local/sbin/xinetd -f /usr/local/etc/x'
+      37  '(root,12444,12540,0.0) /usr/sbin/ntpd -c /etc/ntp.conf -p /var/ru'
+      38  '(root,6368,1736,0.0) /usr/sbin/powerd'
+      39  '(dhcpd,17132,4736,0.0) /usr/local/sbin/dhcpd -cf /usr/local/etc/d'
+      40  '(root,10376,3496,0.0) tmux: server (/tmp//tmux-0/default) (tmux)'
+      41  '(dhcpd,15084,4004,0.0) /usr/local/sbin/dhcpd -6 -cf /usr/local/et'
+      42  '(root,28844,8272,0.0) /usr/local/sbin/nmbd --daemon --configfile'
+      43  '(root,165600,8980,0.0) /usr/local/sbin/smbd --daemon --configfile'
+      44  '(root,121892,9048,0.0) /usr/local/sbin/smbd --daemon --configfile'
+      45  '(root,121884,9084,0.0) /usr/local/sbin/smbd --daemon --configfile'
+      46  '(root,165600,8996,0.0) /usr/local/sbin/smbd --daemon --configfile'
+      47  '(squid,24472,0,0.0) /usr/local/sbin/squid -f /usr/local/etc/sq'
+      48  '(squid,319360,8364,0.0) (squid-1) --kid squid-1 -f /usr/local/etc/'
+      49  '(squid,8608,0,0.0) (logfile-daemon) /var/log/squid/access.log'
+      50  '(squid,11804,4564,0.0) (pinger) (pinger)'
+      51  '(root,22848,6240,0.0) /usr/local/sbin/snmptrapd -a -p /var/run/s'
+      52  '(root,24848,7032,0.0) /usr/local/sbin/snmpd -p /var/run/net_snmp'
+      53  '(root,8480,1712,0.0) /usr/local/sbin/smartd -c /usr/local/etc/s'
+      54  '(root,141400,13212,0.0) /usr/local/bin/perl -T -w /usr/local/bin/s'
+      55  '(vscan,141400,12720,0.0) spamd child (perl)'
+      56  '(vscan,141400,13160,0.0) spamd child (perl)'
+      57  '(vscan,141400,13200,0.0) spamd child (perl)'
+      58  '(vscan,141400,13244,0.0) spamd child (perl)'
+      59  '(vscan,141400,13240,0.0) spamd child (perl)'
+      60  '(vscan,141400,13244,0.0) spamd child (perl)'
+      61  '(vscan,141400,13284,0.0) spamd child (perl)'
+      62  '(vscan,141400,13256,0.0) spamd child (perl)'
+      63  '(vscan,141400,13236,0.0) spamd child (perl)'
+      64  '(vscan,141400,13024,0.0) spamd child (perl)'
+      65  '(mysql,7048,0,0.0) /bin/sh /usr/local/bin/mysqld_safe --defau'
+      66  '(mysql,5217572,32964,0.0) /usr/local/libexec/mysqld --defaults-extra'
+      67  '(root,0,16,0.0) [md0]'
+      68  '(vscan,200772,100692,0.0) /usr/local/sbin/amavisd (master) (perl)'
+      69  '(clamav,15920,5604,0.0) /usr/local/bin/freshclam --daemon -p /var/'
+      70  '(root,9472,1120,0.0) /usr/local/sbin/dovecot -c /usr/local/etc/'
+      71  '(dovecot,9404,1548,0.0) dovecot/anvil'
+      72  '(root,9404,1260,0.0) dovecot/log'
+      73  '(root,11612,2672,0.0) dovecot/config'
+      74  '(root,18344,1688,0.0) /usr/local/libexec/postfix/master -w'
+      75  '(postfix,18412,1796,0.0) qmgr -l -t unix -u'
+      76  '(nobody,6888,2216,0.0) /usr/local/sbin/mdnsd'
+      77  '(root,14092,3732,0.0) /usr/local/sbin/netatalk'
+      78  '(root,22864,6968,0.0) /usr/local/sbin/afpd -d -F /usr/local/etc/'
+      79  '(root,11676,3540,0.0) /usr/local/sbin/cnid_metad -d -F /usr/loca'
+      80  '(root,6584,2012,0.0) /usr/sbin/moused -p /dev/psm0 -t auto'
+      81  '(postfix,18492,3124,0.0) tlsmgr -l -t unix -u'
+      82  '(messagebus,7304,2140,0.0) /usr/local/bin/dbus-daemon --system'
+      83  '(root,44632,2620,0.0) /usr/local/sbin/console-kit-daemon --no-da'
+      84  '(polkitd,1135764,3992,0.0) /usr/local/lib/polkit-1/polkitd --no-debug'
+      85  '(vscan,204276,0,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      86  '(vscan,206324,0,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      87  '(vscan,206316,84200,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      88  '(vscan,204268,85180,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      89  '(vscan,204268,85248,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      90  '(vscan,206316,88600,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      91  '(vscan,210412,86160,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      92  '(vscan,206316,90768,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      93  '(vscan,210412,93720,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      94  '(vscan,206316,93740,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      95  '(vscan,206316,94028,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      96  '(vscan,206316,86144,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      97  '(vscan,206316,87984,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      98  '(vscan,206316,85740,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      99  '(vscan,206316,87712,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      100  '(vscan,208364,88792,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      101  '(vscan,206316,95760,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      102  '(vscan,210412,101024,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      103  '(vscan,206316,97548,0.0) /usr/local/sbin/amavisd (ch2-avail) (perl)'
+      104  '(vscan,204268,2168,0.0) /usr/local/sbin/amavisd (ch1-avail) (perl)'
+      105  '(root,53216,16324,0.0) /usr/local/bin/python2.7 /usr/local/bin/fa'
+      106  '(root,12840,5008,0.0) /usr/sbin/sshd'
+      107  '(root,21412,12568,0.0) /usr/local/bin/python2.7 /usr/local/bin/de'
+      108  '(root,205036,34280,0.0) /usr/local/sbin/httpd'
+      109  '(root,6448,816,0.0) /usr/sbin/cron -s'
+      110  '(haldaemon,16408,3932,0.0) /usr/local/sbin/hald'
+      111  '(root,14212,2516,0.0) hald-runner'
+      112  '(root,9956,0,0.0) hald-addon-mouse-sysmouse: /dev/psm0 (hald'
+      113  '(www,204456,0,0.0) /usr/local/sbin/httpd'
+      114  '(www,213488,35264,0.0) /usr/local/sbin/httpd'
+      115  '(www,213936,38620,0.6) /usr/local/sbin/httpd'
+      116  '(www,215920,38428,0.1) /usr/local/sbin/httpd'
+      117  '(www,211308,32904,0.0) /usr/local/sbin/httpd'
+      118  '(root,9956,0,0.0) hald-addon-mouse-sysmouse: /dev/ums0 (hald'
+      119  '(root,7256,2300,0.0) hald-addon-storage: /dev/cd0 (hald-addon-s'
+      120  '(www,211308,39984,0.0) /usr/local/sbin/httpd'
+      121  '(www,213680,37332,0.0) /usr/local/sbin/httpd'
+      122  '(www,213744,40004,0.0) /usr/local/sbin/httpd'
+      123  '(www,211308,36956,0.0) /usr/local/sbin/httpd'
+      124  '(root,9696,4400,0.0) screen -l -S ports'
+      125  '(dovecot,9404,1444,0.0) dovecot/stats'
+      126  '(www,213488,62332,0.0) /usr/local/sbin/httpd'
+      127  '(postfix,18360,8368,0.0) pickup -l -t unix -u'
+      128  '(dovecot,16976,8436,0.0) dovecot/auth'
+      129  '(postfix,18812,9164,0.0) smtpd -n smtp -t inet -u -o stress= -s 2'
+      130  '(postfix,18364,8384,0.0) proxymap -t unix -u'
+      131  '(postfix,18360,8384,0.0) anvil -l -t unix -u'
+      132  '(root,6472,2324,0.0) /usr/local/bin/bash /usr/local/bin/check_m'
+      133  '(root,6896,2916,0.0) ps ax -o state,user,vsz,rss,pcpu,command'
+      134  '(www,213488,44980,0.2) /usr/local/sbin/httpd'
+      135  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv0'
+      136  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv1'
+      137  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv2'
+      138  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv3'
+      139  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv4'
+      140  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv5'
+      141  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv6'
+      142  '(root,6392,1800,0.0) /usr/libexec/getty Pc ttyv7'
+      143  '(root,7048,0,0.0) /bin/sh /usr/local/sbin/vm -tf _run pfSens'
+      144  '(root,285504,56360,0.2) bhyve: pfSense (bhyve)'
+      145  '(root,6552,1400,0.0) -/usr/local/bin/bash'
+   'statgrab_disk' => ARRAY(0x55eb48388d08)
+      0  'ada0.disk_name ada0'
+      1  'ada0.read_bytes 1343895040'
+      2  'ada0.systime 1540049198'
+      3  'ada0.write_bytes 20527063040'
+      4  'ada1.disk_name ada1'
+      5  'ada1.read_bytes 1376379904'
+      6  'ada1.systime 1540049198'
+      7  'ada1.write_bytes 20533452800'
+      8  'ada2.disk_name ada2'
+      9  'ada2.read_bytes 1372469248'
+      10  'ada2.systime 1540049198'
+      11  'ada2.write_bytes 20564553728'
+      12  'ada3.disk_name ada3'
+      13  'ada3.read_bytes 217596416'
+      14  'ada3.systime 1540049198'
+      15  'ada3.write_bytes 7974847488'
+      16  'cd0.disk_name cd0'
+      17  'cd0.read_bytes 0'
+      18  'cd0.systime 1540049198'
+      19  'cd0.write_bytes 0'
+      20  'pass0.disk_name pass0'
+      21  'pass0.read_bytes 32256'
+      22  'pass0.systime 1540049198'
+      23  'pass0.write_bytes 0'
+      24  'pass1.disk_name pass1'
+      25  'pass1.read_bytes 32256'
+      26  'pass1.systime 1540049198'
+      27  'pass1.write_bytes 0'
+      28  'pass2.disk_name pass2'
+      29  'pass2.read_bytes 32256'
+      30  'pass2.systime 1540049198'
+      31  'pass2.write_bytes 0'
+      32  'pass3.disk_name pass3'
+      33  'pass3.read_bytes 32256'
+      34  'pass3.systime 1540049198'
+      35  'pass3.write_bytes 0'
+      36  'pass4.disk_name pass4'
+      37  'pass4.read_bytes 130734'
+      38  'pass4.systime 1540049198'
+      39  'pass4.write_bytes 0'
+      40  'pass5.disk_name pass5'
+      41  'pass5.read_bytes 1024'
+      42  'pass5.systime 1540049198'
+      43  'pass5.write_bytes 0'
+   'statgrab_mem' => ARRAY(0x55eb4838ac08)
+      0  'mem.cache 0'
+      1  'mem.free 5485674496'
+      2  'mem.total 16654921728'
+      3  'mem.used 11169247232'
+      4  'swap.free 22315577344'
+      5  'swap.total 23622320128'
+      6  'swap.used 1306742784'
+   'statgrab_net' => ARRAY(0x55eb483891d0)
+      0  'igb0.collisions 0'
+      1  'igb0.duplex full'
+      2  'igb0.ierrors 0'
+      3  'igb0.interface_name igb0'
+      4  'igb0.ipackets 2596616'
+      5  'igb0.oerrors 0'
+      6  'igb0.opackets 319438'
+      7  'igb0.rx 3145694055'
+      8  'igb0.speed 1000'
+      9  'igb0.systime 1540049198'
+      10  'igb0.tx 84663450'
+      11  'igb0.up true'
+      12  'igb1.collisions 0'
+      13  'igb1.duplex unknown'
+      14  'igb1.ierrors 0'
+      15  'igb1.interface_name igb1'
+      16  'igb1.ipackets 0'
+      17  'igb1.oerrors 0'
+      18  'igb1.opackets 0'
+      19  'igb1.rx 0'
+      20  'igb1.speed 0'
+      21  'igb1.systime 1540049198'
+      22  'igb1.tx 0'
+      23  'igb1.up false'
+      24  'igb2.collisions 0'
+      25  'igb2.duplex full'
+      26  'igb2.ierrors 0'
+      27  'igb2.interface_name igb2'
+      28  'igb2.ipackets 0'
+      29  'igb2.oerrors 0'
+      30  'igb2.opackets 0'
+      31  'igb2.rx 0'
+      32  'igb2.speed 100'
+      33  'igb2.systime 1540049198'
+      34  'igb2.tx 0'
+      35  'igb2.up false'
+      36  'igb3.collisions 0'
+      37  'igb3.duplex unknown'
+      38  'igb3.ierrors 0'
+      39  'igb3.interface_name igb3'
+      40  'igb3.ipackets 0'
+      41  'igb3.oerrors 0'
+      42  'igb3.opackets 0'
+      43  'igb3.rx 0'
+      44  'igb3.speed 0'
+      45  'igb3.systime 1540049198'
+      46  'igb3.tx 0'
+      47  'igb3.up false'
+      48  'lo0.collisions 0'
+      49  'lo0.duplex unknown'
+      50  'lo0.ierrors 0'
+      51  'lo0.interface_name lo0'
+      52  'lo0.ipackets 16683'
+      53  'lo0.oerrors 0'
+      54  'lo0.opackets 16683'
+      55  'lo0.rx 3268015'
+      56  'lo0.speed 0'
+      57  'lo0.systime 1540049198'
+      58  'lo0.tx 3268015'
+      59  'lo0.up true'
+      60  'lo1.collisions 0'
+      61  'lo1.duplex unknown'
+      62  'lo1.ierrors 0'
+      63  'lo1.interface_name lo1'
+      64  'lo1.ipackets 6'
+      65  'lo1.oerrors 0'
+      66  'lo1.opackets 6'
+      67  'lo1.rx 583'
+      68  'lo1.speed 0'
+      69  'lo1.systime 1540049198'
+      70  'lo1.tx 583'
+      71  'lo1.up true'
+      72  'tap0.collisions 0'
+      73  'tap0.duplex unknown'
+      74  'tap0.ierrors 0'
+      75  'tap0.interface_name tap0'
+      76  'tap0.ipackets 33085'
+      77  'tap0.oerrors 22'
+      78  'tap0.opackets 10577'
+      79  'tap0.rx 1987709'
+      80  'tap0.speed 0'
+      81  'tap0.systime 1540049198'
+      82  'tap0.tx 727978'
+      83  'tap0.up true'
+      84  'tap1.collisions 0'
+      85  'tap1.duplex unknown'
+      86  'tap1.ierrors 0'
+      87  'tap1.interface_name tap1'
+      88  'tap1.ipackets 64201'
+      89  'tap1.oerrors 22'
+      90  'tap1.opackets 107779'
+      91  'tap1.rx 3869435'
+      92  'tap1.speed 0'
+      93  'tap1.systime 1540049198'
+      94  'tap1.tx 6764544'
+      95  'tap1.up true'
+      96  'vm-public.collisions 0'
+      97  'vm-public.duplex unknown'
+      98  'vm-public.ierrors 0'
+      99  'vm-public.interface_name vm-public'
+      100  'vm-public.ipackets 2477179'
+      101  'vm-public.oerrors 0'
+      102  'vm-public.opackets 437799'
+      103  'vm-public.rx 6131560646'
+      104  'vm-public.speed 0'
+      105  'vm-public.systime 1540049198'
+      106  'vm-public.tx 90838868'
+      107  'vm-public.up true'
+   'statgrab_page' => ARRAY(0x55eb48389158)
+      0  'in 126070'
+      1  'out 410283'
+      2  'systime 1540049198'
+   'statgrab_proc' => ARRAY(0x55eb48388c60)
+      0  'running 2'
+      1  'sleeping 149'
+      2  'stopped 0'
+      3  'total 151'
+      4  'zombie 0'
+   'tcp_conn_stats' => ARRAY(0x55eb48388b58)
+      0  'LISTEN 44'
+      1  'TIME_WAIT 14'
+      2  'ESTABLISHED 1'
+   'uptime' => ARRAY(0x55eb483888d0)
+      0  '33161 1444'
+   'zfsget' => ARRAY(0x55eb48384c60)
+      0  "zroot\cIname\cIzroot\cI-"
+      1  "zroot\cIquota\cI0\cIdefault"
+      2  "zroot\cIused\cI791663455792\cI-"
+      3  "zroot\cIavailable\cI638236185488\cI-"
+      4  "zroot\cImountpoint\cI/zroot\cIlocal"
+      5  "zroot\cItype\cIfilesystem\cI-"
+      6  "zroot/ROOT\cIname\cIzroot/ROOT\cI-"
+      7  "zroot/ROOT\cIquota\cI0\cIdefault"
+      8  "zroot/ROOT\cIused\cI49645475264\cI-"
+      9  "zroot/ROOT\cIavailable\cI638236185488\cI-"
+      10  "zroot/ROOT\cImountpoint\cInone\cIlocal"
+      11  "zroot/ROOT\cItype\cIfilesystem\cI-"
+      12  "zroot/ROOT/default\cIname\cIzroot/ROOT/default\cI-"
+      13  "zroot/ROOT/default\cIquota\cI0\cIdefault"
+      14  "zroot/ROOT/default\cIused\cI49645355232\cI-"
+      15  "zroot/ROOT/default\cIavailable\cI638236185488\cI-"
+      16  "zroot/ROOT/default\cImountpoint\cI/\cIlocal"
+      17  "zroot/ROOT/default\cItype\cIfilesystem\cI-"
+      18  "zroot/home\cIname\cIzroot/home\cI-"
+      19  "zroot/home\cIquota\cI0\cIdefault"
+      20  "zroot/home\cIused\cI262142091376\cI-"
+      21  "zroot/home\cIavailable\cI638236185488\cI-"
+      22  "zroot/home\cImountpoint\cI/home\cIlocal"
+      23  "zroot/home\cItype\cIfilesystem\cI-"
+      24  "zroot/tmp\cIname\cIzroot/tmp\cI-"
+      25  "zroot/tmp\cIquota\cI0\cIdefault"
+      26  "zroot/tmp\cIused\cI6718147392\cI-"
+      27  "zroot/tmp\cIavailable\cI638236185488\cI-"
+      28  "zroot/tmp\cImountpoint\cI/tmp\cIlocal"
+      29  "zroot/tmp\cItype\cIfilesystem\cI-"
+      30  "zroot/usr\cIname\cIzroot/usr\cI-"
+      31  "zroot/usr\cIquota\cI0\cIdefault"
+      32  "zroot/usr\cIused\cI295838789312\cI-"
+      33  "zroot/usr\cIavailable\cI638236185488\cI-"
+      34  "zroot/usr\cImountpoint\cI/usr\cIlocal"
+      35  "zroot/usr\cItype\cIfilesystem\cI-"
+      36  "zroot/usr/local\cIname\cIzroot/usr/local\cI-"
+      37  "zroot/usr/local\cIquota\cI0\cIdefault"
+      38  "zroot/usr/local\cIused\cI203384730560\cI-"
+      39  "zroot/usr/local\cIavailable\cI638236185488\cI-"
+      40  "zroot/usr/local\cImountpoint\cI/usr/local\cIlocal"
+      41  "zroot/usr/local\cItype\cIfilesystem\cI-"
+      42  "zroot/usr/obj\cIname\cIzroot/usr/obj\cI-"
+      43  "zroot/usr/obj\cIquota\cI0\cIdefault"
+      44  "zroot/usr/obj\cIused\cI68567652560\cI-"
+      45  "zroot/usr/obj\cIavailable\cI638236185488\cI-"
+      46  "zroot/usr/obj\cImountpoint\cI/usr/obj\cIlocal"
+      47  "zroot/usr/obj\cItype\cIfilesystem\cI-"
+      48  "zroot/usr/ports\cIname\cIzroot/usr/ports\cI-"
+      49  "zroot/usr/ports\cIquota\cI0\cIdefault"
+      50  "zroot/usr/ports\cIused\cI22004337168\cI-"
+      51  "zroot/usr/ports\cIavailable\cI638236185488\cI-"
+      52  "zroot/usr/ports\cImountpoint\cI/usr/ports\cIinherited from zroot/usr"
+      53  "zroot/usr/ports\cItype\cIfilesystem\cI-"
+      54  "zroot/usr/ports/disfiles\cIname\cIzroot/usr/ports/disfiles\cI-"
+      55  "zroot/usr/ports/disfiles\cIquota\cI0\cIdefault"
+      56  "zroot/usr/ports/disfiles\cIused\cI185504\cI-"
+      57  "zroot/usr/ports/disfiles\cIavailable\cI638236185488\cI-"
+      58  "zroot/usr/ports/disfiles\cImountpoint\cI/usr/ports/disfiles\cIinherited from zroot/usr"
+      59  "zroot/usr/ports/disfiles\cItype\cIfilesystem\cI-"
+      60  "zroot/usr/src\cIname\cIzroot/usr/src\cI-"
+      61  "zroot/usr/src\cIquota\cI0\cIdefault"
+      62  "zroot/usr/src\cIused\cI1881948992\cI-"
+      63  "zroot/usr/src\cIavailable\cI638236185488\cI-"
+      64  "zroot/usr/src\cImountpoint\cI/usr/src\cIinherited from zroot/usr"
+      65  "zroot/usr/src\cItype\cIfilesystem\cI-"
+      66  "zroot/var\cIname\cIzroot/var\cI-"
+      67  "zroot/var\cIquota\cI0\cIdefault"
+      68  "zroot/var\cIused\cI166811225680\cI-"
+      69  "zroot/var\cIavailable\cI638236185488\cI-"
+      70  "zroot/var\cImountpoint\cI/var\cIlocal"
+      71  "zroot/var\cItype\cIfilesystem\cI-"
+      72  "zroot/var/audit\cIname\cIzroot/var/audit\cI-"
+      73  "zroot/var/audit\cIquota\cI0\cIdefault"
+      74  "zroot/var/audit\cIused\cI120032\cI-"
+      75  "zroot/var/audit\cIavailable\cI638236185488\cI-"
+      76  "zroot/var/audit\cImountpoint\cI/var/audit\cIinherited from zroot/var"
+      77  "zroot/var/audit\cItype\cIfilesystem\cI-"
+      78  "zroot/var/crash\cIname\cIzroot/var/crash\cI-"
+      79  "zroot/var/crash\cIquota\cI0\cIdefault"
+      80  "zroot/var/crash\cIused\cI299643520\cI-"
+      81  "zroot/var/crash\cIavailable\cI638236185488\cI-"
+      82  "zroot/var/crash\cImountpoint\cI/var/crash\cIinherited from zroot/var"
+      83  "zroot/var/crash\cItype\cIfilesystem\cI-"
+      84  "zroot/var/log\cIname\cIzroot/var/log\cI-"
+      85  "zroot/var/log\cIquota\cI0\cIdefault"
+      86  "zroot/var/log\cIused\cI166509208800\cI-"
+      87  "zroot/var/log\cIavailable\cI638236185488\cI-"
+      88  "zroot/var/log\cImountpoint\cI/var/log\cIinherited from zroot/var"
+      89  "zroot/var/log\cItype\cIfilesystem\cI-"
+      90  "zroot/var/mail\cIname\cIzroot/var/mail\cI-"
+      91  "zroot/var/mail\cIquota\cI0\cIdefault"
+      92  "zroot/var/mail\cIused\cI1320352\cI-"
+      93  "zroot/var/mail\cIavailable\cI638236185488\cI-"
+      94  "zroot/var/mail\cImountpoint\cI/var/mail\cIinherited from zroot/var"
+      95  "zroot/var/mail\cItype\cIfilesystem\cI-"
+      96  "zroot/var/tmp\cIname\cIzroot/var/tmp\cI-"
+      97  "zroot/var/tmp\cIquota\cI0\cIdefault"
+      98  "zroot/var/tmp\cIused\cI812944\cI-"
+      99  "zroot/var/tmp\cIavailable\cI638236185488\cI-"
+      100  "zroot/var/tmp\cImountpoint\cI/var/tmp\cIinherited from zroot/var"
+      101  "zroot/var/tmp\cItype\cIfilesystem\cI-"
+      102  "zroot/vms\cIname\cIzroot/vms\cI-"
+      103  "zroot/vms\cIquota\cI0\cIdefault"
+      104  "zroot/vms\cIused\cI9921910592\cI-"
+      105  "zroot/vms\cIavailable\cI638236185488\cI-"
+      106  "zroot/vms\cImountpoint\cI/vms\cIlocal"
+      107  "zroot/vms\cItype\cIfilesystem\cI-"
+      108  "zroot/vms/pfSense\cIname\cIzroot/vms/pfSense\cI-"
+      109  "zroot/vms/pfSense\cIquota\cI0\cIdefault"
+      110  "zroot/vms/pfSense\cIused\cI763725424\cI-"
+      111  "zroot/vms/pfSense\cIavailable\cI638236185488\cI-"
+      112  "zroot/vms/pfSense\cImountpoint\cI/vms/pfSense\cIinherited from zroot/vms"
+      113  "zroot/vms/pfSense\cItype\cIfilesystem\cI-"
+      114  "zroot/vms/ubuntu\cIname\cIzroot/vms/ubuntu\cI-"
+      115  "zroot/vms/ubuntu\cIquota\cI0\cIdefault"
+      116  "zroot/vms/ubuntu\cIused\cI2179742928\cI-"
+      117  "zroot/vms/ubuntu\cIavailable\cI638236185488\cI-"
+      118  "zroot/vms/ubuntu\cImountpoint\cI/vms/ubuntu\cIinherited from zroot/vms"
+      119  "zroot/vms/ubuntu\cItype\cIfilesystem\cI-"
+      120  '[df]'
+      121  'zroot/ROOT/default         642127466  18849942 623277524     3%    /'
+      122  'zroot/home                 873759762 250482237 623277524    29%    /home'
+      123  'zroot/tmp                  623277844       320 623277524     0%    /tmp'
+      124  'zroot/usr/local            696964625  73687100 623277524    11%    /usr/local'
+      125  'zroot/usr/obj              645051429  21773905 623277524     3%    /usr/obj'
+      126  'zroot/usr/ports            630017267   6739742 623277524     1%    /usr/ports'
+      127  'zroot/usr/ports/disfiles   623277706       181 623277524     0%    /usr/ports/disfiles'
+      128  'zroot/usr/src              624909598   1632074 623277524     0%    /usr/src'
+      129  'zroot/var/audit            623277642       117 623277524     0%    /var/audit'
+      130  'zroot/var/crash            623570081    292557 623277524     0%    /var/crash'
+      131  'zroot/var/log              785800400 162522875 623277524    21%    /var/log'
+      132  'zroot/var/mail             623277684       160 623277524     0%    /var/mail'
+      133  'zroot/var/tmp              623277647       122 623277524     0%    /var/tmp'
+      134  'zroot/vms                  630092218   6814693 623277524     1%    /vms'
+      135  'zroot/vms/pfSense          623934717    657192 623277524     0%    /vms/pfSense'
+      136  'zroot/vms/ubuntu           625298333   2020809 623277524     0%    /vms/ubuntu'
+      137  'zroot                      623277642       117 623277524     0%    /zroot'
+   'zpool_status' => ARRAY(0x55eb48388c18)
+      0  'all pools are healthy'
