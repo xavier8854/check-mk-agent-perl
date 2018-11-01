@@ -151,7 +151,7 @@ sub check_mailq() {
 	logD("Warning=$w, Critical=$c");
 	logD(Dumper($this->{'sections'}{'postfix_mailq'}));
 	my ($unused1, $size_deferred, $deferred);
-	my ($unused2, $size_active, $active);
+	my ($unused2, $size_active, $unused3, $unused4, $active);
 	if ($os eq 'linux') {
 		($unused1, $size_deferred, $deferred) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
 		($unused2, $size_active, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[1]);
@@ -161,13 +161,13 @@ sub check_mailq() {
 	} elsif ($os eq 'freebsd') {
 		if($this->{'sections'}{'postfix_mailq'}[0] eq 'Mail queue is empty') {
 			$active = 0;
-		} else {
-			($unused2, $size_active, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
+		} else {	# -- 1941 Kbytes in 179 Requests.
+			($unused2, $size_active, $unused3, $unused4, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
 		}
 		if  ($active > $c) { $status = "CRITICAL"; $ret = $CRIT;}
 		elsif($active > $w) { $status = "WARNING"; $ret = $WARN;}
 		
-		$message = sprintf ("mailq length is %d|unsent=%d;%d;%d;0", $active, $active, $w, $c);
+		$message = sprintf ("mailq length is %d KB|unsent=%d;%d;%d;0", $size_active, $active, $w, $c);
 	}
  	return $ret, $message;
 }

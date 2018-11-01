@@ -64,7 +64,7 @@ check_mk_agent::check_memory(check_mk_agent.pm:195):
       4  '+ 129.250.35.250  249.224.99.213   2 u  393 1024  377   10.912   11.562   6.570'
       5  '+ 5.135.3.88      124.216.164.14   2 u  704 1024  377   14.205   10.881   7.022'
    'postfix_mailq' => ARRAY(0x55eb48388bd0)
-      0  'Mail queue is empty'
+      0  '-- 1941 Kbytes in 179 Requests.'
    'ps' => ARRAY(0x55eb48387a80)
       0  '(root,0,4720,0.0) [kernel]'
       1  '(root,5416,196,0.0) /sbin/init --'
