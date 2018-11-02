@@ -161,6 +161,7 @@ sub check_mailq() {
 	} elsif ($os eq 'freebsd') {
 		if($this->{'sections'}{'postfix_mailq'}[0] eq 'Mail queue is empty') {
 			$active = 0;
+			$size_active = 0;
 		} else {	# -- 1941 Kbytes in 179 Requests.
 			($unused2, $size_active, $unused3, $unused4, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
 		}
