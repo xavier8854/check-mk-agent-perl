@@ -1,0 +1,499 @@
+Trying 172.29.188.31...
+Connected to crt-rv4-int.in.ac-nancy-metz.fr.
+Escape character is '^]'.
+<<<check_mk>>>
+Version: 1.5.0p3
+AgentOS: linux
+Hostname: crt-rv4-int.in.ac-nancy-metz.fr
+AgentDirectory: /etc/check_mk
+DataDirectory: /var/lib/check_mk_agent
+SpoolDirectory: /var/lib/check_mk_agent/spool
+PluginsDirectory: /usr/lib/check_mk_agent/plugins
+LocalDirectory: /usr/lib/check_mk_agent/local
+OnlyFrom: 
+<<<df>>>
+/dev/mapper/vg0-root ext4        10915720 6633364   3704820      65% /
+devtmpfs             devtmpfs     1519380       0   1519380       0% /dev
+tmpfs                tmpfs        1531164       0   1531164       0% /dev/shm
+tmpfs                tmpfs        1531164  157148   1374016      11% /run
+tmpfs                tmpfs        1531164       0   1531164       0% /sys/fs/cgroup
+/dev/sda1            ext4          289285  153049    116780      57% /boot
+/dev/mapper/vg0-var  ext4         3997376 2357564   1413716      63% /var
+tmpfs                tmpfs        1531164    5844   1525320       1% /opt/omd/sites/racvision4/tmp
+<<<df>>>
+[df_inodes_start]
+/dev/mapper/vg0-root ext4     701760 123219 578541   18% /
+devtmpfs             devtmpfs 379845    349 379496    1% /dev
+tmpfs                tmpfs    382791      1 382790    1% /dev/shm
+tmpfs                tmpfs    382791    730 382061    1% /run
+tmpfs                tmpfs    382791     16 382775    1% /sys/fs/cgroup
+/dev/sda1            ext4      76912    349  76563    1% /boot
+/dev/mapper/vg0-var  ext4     262144  92118 170026   36% /var
+tmpfs                tmpfs    382791   1432 381359    1% /opt/omd/sites/racvision4/tmp
+[df_inodes_end]
+<<<nfsmounts>>>
+<<<cifsmounts>>>
+<<<mounts>>>
+/dev/mapper/vg0-root / ext4 rw,relatime,data=ordered 0 0
+/dev/sda1 /boot ext4 rw,relatime,data=ordered 0 0
+/dev/mapper/vg0-var /var ext4 rw,relatime,data=ordered 0 0
+<<<ps>>>
+(root,191008,3396,00:30:53/49-20:47:36,1) /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+(root,0,0,00:00:02/49-20:47:36,2) [kthreadd]
+(root,0,0,00:05:46/49-20:47:36,3) [ksoftirqd/0]
+(root,0,0,00:00:00/49-20:47:36,5) [kworker/0:0H]
+(root,0,0,00:03:16/49-20:47:36,7) [migration/0]
+(root,0,0,00:00:00/49-20:47:36,8) [rcu_bh]
+(root,0,0,00:26:31/49-20:47:36,9) [rcu_sched]
+(root,0,0,00:00:00/49-20:47:36,10) [lru-add-drain]
+(root,0,0,00:04:15/49-20:47:36,11) [watchdog/0]
+(root,0,0,00:05:36/49-20:47:36,12) [watchdog/1]
+(root,0,0,00:01:07/49-20:47:36,13) [migration/1]
+(root,0,0,00:05:45/49-20:47:36,14) [ksoftirqd/1]
+(root,0,0,00:00:00/49-20:47:36,16) [kworker/1:0H]
+(root,0,0,00:00:00/49-20:47:36,18) [kdevtmpfs]
+(root,0,0,00:00:00/49-20:47:36,19) [netns]
+(root,0,0,00:00:01/49-20:47:36,20) [khungtaskd]
+(root,0,0,00:01:51/49-20:47:36,21) [writeback]
+(root,0,0,00:00:00/49-20:47:36,22) [kintegrityd]
+(root,0,0,00:00:00/49-20:47:36,23) [bioset]
+(root,0,0,00:00:00/49-20:47:36,24) [bioset]
+(root,0,0,00:00:00/49-20:47:36,25) [bioset]
+(root,0,0,00:00:00/49-20:47:36,26) [kblockd]
+(root,0,0,00:00:00/49-20:47:36,27) [md]
+(root,0,0,00:00:00/49-20:47:36,28) [edac-poller]
+(root,0,0,00:00:09/49-20:47:35,34) [kswapd0]
+(root,0,0,00:00:00/49-20:47:35,35) [ksmd]
+(root,0,0,00:00:08/49-20:47:35,36) [khugepaged]
+(root,0,0,00:00:00/49-20:47:35,37) [crypto]
+(root,0,0,00:00:00/49-20:47:35,45) [kthrotld]
+(root,0,0,00:00:00/49-20:47:35,47) [kmpath_rdacd]
+(root,0,0,00:00:00/49-20:47:35,48) [kaluad]
+(root,0,0,00:00:00/49-20:47:35,49) [kpsmoused]
+(root,0,0,00:00:00/49-20:47:35,52) [ipv6_addrconf]
+(root,0,0,00:00:00/49-20:47:35,65) [deferwq]
+(root,0,0,00:00:07/49-20:47:35,96) [kauditd]
+(root,0,0,00:00:00/49-20:47:35,274) [scsi_eh_0]
+(root,0,0,00:00:00/49-20:47:35,275) [scsi_tmf_0]
+(root,0,0,00:00:00/49-20:47:35,276) [vmw_pvscsi_wq_0]
+(root,0,0,00:00:00/49-20:47:35,278) [ata_sff]
+(root,0,0,00:00:00/49-20:47:34,280) [scsi_eh_1]
+(root,0,0,00:00:00/49-20:47:34,282) [scsi_tmf_1]
+(root,0,0,00:00:00/49-20:47:34,283) [scsi_eh_2]
+(root,0,0,00:00:00/49-20:47:34,284) [scsi_tmf_2]
+(root,0,0,00:00:00/49-20:47:34,290) [scsi_eh_3]
+(root,0,0,00:00:00/49-20:47:34,292) [scsi_tmf_3]
+(root,0,0,00:00:00/49-20:47:34,293) [scsi_eh_4]
+(root,0,0,00:00:00/49-20:47:34,294) [scsi_tmf_4]
+(root,0,0,00:00:00/49-20:47:34,295) [scsi_eh_5]
+(root,0,0,00:00:00/49-20:47:34,296) [scsi_tmf_5]
+(root,0,0,00:00:00/49-20:47:34,297) [scsi_eh_6]
+(root,0,0,00:00:00/49-20:47:34,298) [scsi_tmf_6]
+(root,0,0,00:00:00/49-20:47:34,299) [scsi_eh_7]
+(root,0,0,00:00:00/49-20:47:34,300) [scsi_tmf_7]
+(root,0,0,00:00:00/49-20:47:34,302) [scsi_eh_8]
+(root,0,0,00:00:00/49-20:47:34,303) [scsi_tmf_8]
+(root,0,0,00:00:00/49-20:47:34,306) [scsi_eh_9]
+(root,0,0,00:00:00/49-20:47:34,307) [scsi_tmf_9]
+(root,0,0,00:00:00/49-20:47:34,308) [scsi_eh_10]
+(root,0,0,00:00:00/49-20:47:34,309) [scsi_tmf_10]
+(root,0,0,00:00:00/49-20:47:34,310) [scsi_eh_11]
+(root,0,0,00:00:00/49-20:47:34,311) [scsi_tmf_11]
+(root,0,0,00:00:00/49-20:47:34,312) [scsi_eh_12]
+(root,0,0,00:00:00/49-20:47:34,313) [scsi_tmf_12]
+(root,0,0,00:00:00/49-20:47:34,314) [scsi_eh_13]
+(root,0,0,00:00:00/49-20:47:34,315) [scsi_tmf_13]
+(root,0,0,00:00:00/49-20:47:34,316) [scsi_eh_14]
+(root,0,0,00:00:00/49-20:47:34,317) [scsi_tmf_14]
+(root,0,0,00:00:00/49-20:47:34,318) [scsi_eh_15]
+(root,0,0,00:00:00/49-20:47:34,319) [scsi_tmf_15]
+(root,0,0,00:00:00/49-20:47:34,320) [scsi_eh_16]
+(root,0,0,00:00:00/49-20:47:34,321) [scsi_tmf_16]
+(root,0,0,00:00:00/49-20:47:34,322) [scsi_eh_17]
+(root,0,0,00:00:00/49-20:47:34,323) [scsi_tmf_17]
+(root,0,0,00:00:00/49-20:47:34,324) [scsi_eh_18]
+(root,0,0,00:00:00/49-20:47:34,325) [scsi_tmf_18]
+(root,0,0,00:00:00/49-20:47:34,326) [scsi_eh_19]
+(root,0,0,00:00:00/49-20:47:34,327) [scsi_tmf_19]
+(root,0,0,00:00:00/49-20:47:34,328) [scsi_eh_20]
+(root,0,0,00:00:00/49-20:47:34,329) [scsi_tmf_20]
+(root,0,0,00:00:00/49-20:47:34,330) [scsi_eh_21]
+(root,0,0,00:00:00/49-20:47:34,331) [scsi_tmf_21]
+(root,0,0,00:00:00/49-20:47:34,332) [scsi_eh_22]
+(root,0,0,00:00:00/49-20:47:34,333) [scsi_tmf_22]
+(root,0,0,00:00:00/49-20:47:34,334) [scsi_eh_23]
+(root,0,0,00:00:00/49-20:47:34,335) [scsi_tmf_23]
+(root,0,0,00:00:00/49-20:47:34,336) [scsi_eh_24]
+(root,0,0,00:00:00/49-20:47:34,337) [scsi_tmf_24]
+(root,0,0,00:00:00/49-20:47:34,338) [scsi_eh_25]
+(root,0,0,00:00:00/49-20:47:34,339) [scsi_tmf_25]
+(root,0,0,00:00:00/49-20:47:34,340) [scsi_eh_26]
+(root,0,0,00:00:00/49-20:47:34,341) [scsi_tmf_26]
+(root,0,0,00:00:00/49-20:47:34,342) [scsi_eh_27]
+(root,0,0,00:00:00/49-20:47:34,343) [scsi_tmf_27]
+(root,0,0,00:00:00/49-20:47:34,344) [scsi_eh_28]
+(root,0,0,00:00:00/49-20:47:34,345) [scsi_tmf_28]
+(root,0,0,00:00:00/49-20:47:34,346) [scsi_eh_29]
+(root,0,0,00:00:00/49-20:47:34,347) [scsi_tmf_29]
+(root,0,0,00:00:00/49-20:47:34,348) [scsi_eh_30]
+(root,0,0,00:00:00/49-20:47:34,349) [scsi_tmf_30]
+(root,0,0,00:00:00/49-20:47:34,350) [scsi_eh_31]
+(root,0,0,00:00:00/49-20:47:34,351) [scsi_tmf_31]
+(root,0,0,00:00:00/49-20:47:34,352) [scsi_eh_32]
+(root,0,0,00:00:00/49-20:47:34,353) [scsi_tmf_32]
+(root,0,0,00:00:00/49-20:47:34,385) [ttm_swap]
+(root,0,0,00:00:00/49-20:47:34,386) [irq/16-vmwgfx]
+(root,0,0,00:00:12/49-20:47:34,416) [kworker/1:1H]
+(root,0,0,00:00:00/49-20:47:34,457) [kdmflush]
+(root,0,0,00:00:00/49-20:47:34,458) [bioset]
+(root,0,0,00:00:18/49-20:47:34,468) [kworker/0:1H]
+(root,0,0,00:00:00/49-20:47:34,469) [kdmflush]
+(root,0,0,00:00:00/49-20:47:34,470) [bioset]
+(root,0,0,00:31:05/49-20:47:34,484) [jbd2/dm-0-8]
+(root,0,0,00:00:00/49-20:47:34,485) [ext4-rsv-conver]
+(root,39484,3976,05:11:04/49-20:47:32,554) /usr/lib/systemd/systemd-journald
+(root,190328,756,00:00:00/49-20:47:31,574) /usr/sbin/lvmetad -f
+(root,44644,1004,00:00:00/49-20:47:31,583) /usr/lib/systemd/systemd-udevd
+(root,0,0,00:00:00/49-20:47:30,660) [kdmflush]
+(root,0,0,00:00:00/49-20:47:30,663) [bioset]
+(root,0,0,00:00:00/49-20:47:30,676) [jbd2/sda1-8]
+(root,0,0,00:00:00/49-20:47:30,677) [ext4-rsv-conver]
+(root,0,0,00:39:23/49-20:47:30,687) [jbd2/dm-2-8]
+(root,0,0,00:00:00/49-20:47:30,688) [ext4-rsv-conver]
+(root,55508,704,00:03:00/49-20:47:29,709) /sbin/auditd
+(polkitd,538564,3400,00:02:36/49-20:47:29,729) /usr/lib/polkit-1/polkitd --no-debug
+(root,21668,1084,00:03:42/49-20:47:29,732) /usr/sbin/irqbalance --foreground
+(root,99648,3052,00:00:00/49-20:47:29,736) /usr/bin/VGAuthService -s
+(root,225328,4012,00:42:15/49-20:47:29,737) /usr/bin/vmtoolsd
+(root,26376,1552,00:06:08/49-20:47:29,739) /usr/lib/systemd/systemd-logind
+(dbus,58224,2116,00:13:39/49-20:47:29,740) /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+(rpc,69220,536,00:00:06/49-20:47:29,742) /sbin/rpcbind -w
+(chrony,103076,1628,00:00:11/49-20:47:29,746) /usr/sbin/chronyd
+(root,476700,4920,00:02:32/49-20:47:28,756) /usr/sbin/NetworkManager --no-daemon
+(root,126312,1024,00:00:42/49-20:47:28,762) /usr/sbin/crond -n
+(root,110088,720,00:00:00/49-20:47:28,767) /sbin/agetty --noclear tty1 linux
+(root,112808,3168,00:00:29/49-20:47:27,988) /usr/sbin/sshd -D
+(root,573752,10148,00:06:46/49-20:47:27,990) /usr/bin/python -Es /usr/sbin/tuned -l -P
+(root,333128,8508,02:27:58/49-20:47:27,996) /usr/sbin/rsyslogd -n
+(root,27164,792,00:00:17/49-20:47:27,1001) /usr/sbin/xinetd -stayalive -pidfile /var/run/xinetd.pid
+(root,115972,596,00:00:00/49-20:47:27,1002) /usr/bin/rhsmcertd
+(root,107964,544,00:00:00/49-20:47:26,1012) rhnsd
+(mysql,4352,480,00:00:00/49-20:47:26,1074) /usr/bin/scl enable mariadb55 -- /opt/rh/mariadb55/root/usr/bin/mysqld_safe --basedir=/opt/rh/mariadb55/root/usr
+(mysql,113172,1228,00:00:00/49-20:47:26,1078) /bin/bash /var/tmp/sclwkroKT
+(mysql,113612,1372,00:00:00/49-20:47:25,1087) /bin/sh /opt/rh/mariadb55/root/usr/bin/mysqld_safe --basedir=/opt/rh/mariadb55/root/usr
+(mysql,1496472,174104,03:35:27/49-20:47:25,1265) /opt/rh/mariadb55/root/usr/libexec/mysqld --basedir=/opt/rh/mariadb55/root/usr --datadir=/opt/rh/mariadb55/root/var/lib/mysql --plugin-dir=/opt/rh/mariadb55/root/usr/lib64/mysql/plugin --log-error=/var/log/mariadb55-mariadb/mariadb55-mariadb.log --pid-file=/opt/rh/mariadb55/root/var/run/mysqld/mysqld.pid --socket=/var/lib/mysql/mysql.sock
+(root,89624,1160,00:00:15/49-20:47:24,1316) /usr/libexec/postfix/master -w
+(postfix,89904,3220,00:00:01/49-20:47:24,1325) qmgr -l -t unix -u
+(carbon,392504,15388,01:16:37/49-20:47:23,1362) /usr/bin/python2 -s /usr/bin/carbon-cache --config=/etc/carbon/carbon.conf --pidfile=/var/run/carbon-cache.pid --logdir=/var/log/carbon/ start
+(racvision4,311528,4984,00:52:32/49-20:47:21,1528) python /omd/sites/racvision4/bin/mkeventd
+(racvision4,727052,8004,01:02:03/49-20:47:20,1540) /omd/sites/racvision4/bin/rrdcached -t 4 -w 3600 -z 1800 -f 7200 -s racvision4 -m 660 -l unix:/omd/sites/racvision4/tmp/run/rrdcached.sock -p /omd/sites/racvision4/tmp/rrdcached.pid -j /omd/sites/racvision4/var/rrdcached -o /omd/sites/racvision4/var/log/rrdcached.log
+(racvision4,229852,816,00:02:06/49-20:47:20,1555) /omd/sites/racvision4/bin/npcd -d -f /omd/sites/racvision4/etc/pnp4nagios/npcd.cfg
+(racvision4,108704,5712,00:01:59/49-20:47:19,1618) /usr/sbin/httpd -f /omd/sites/racvision4/etc/apache/apache.conf
+(root,0,0,00:00:42/01:34:08,21386) [kworker/u256:2]
+(grafana,685164,20560,00:18:49/48-18:45:39,27366) /usr/sbin/grafana-server --config=/etc/grafana/grafana.ini --pidfile=/var/run/grafana/grafana-server.pid cfg:default.paths.logs=/var/log/grafana cfg:default.paths.data=/var/lib/grafana cfg:default.paths.plugins=/var/lib/grafana/plugins cfg:default.paths.provisioning=/etc/grafana/provisioning
+(root,0,0,00:00:01/01:06:08,32015) [kworker/1:2]
+(root,0,0,00:00:17/54:14,36462) [kworker/u256:1]
+(postfix,89728,4056,00:00:00/24:25,47779) pickup -l -t unix -u
+(root,0,0,00:00:00/18:07,50102) [kworker/0:0]
+(postfix,90032,4788,00:00:00/10:39,52814) smtpd -n smtp -t inet -u -s 2
+(root,0,0,00:00:00/10:08,53120) [kworker/1:0]
+(root,0,0,00:00:00/05:08,54983) [kworker/0:2]
+(root,0,0,00:00:00/04:07,55401) [kworker/1:1]
+(icinga,74896,3436,00:00:00/01:22,56424) /usr/bin/ssh -l nagios 172.29.43.247 '/usr/lib64/nagios/plugins/check_disk' '-w' '5%' '-c' '2%'
+(icinga,74896,3440,00:00:00/00:13,56959) /usr/bin/ssh -l nagios 172.29.43.247 '/usr/lib64/nagios/plugins/check_disk' '-w' '5%' '-c' '2%'
+(racvision4,409124,59016,00:00:00/00:07,56994) /usr/sbin/httpd -f /omd/sites/racvision4/etc/apache/apache.conf
+(icinga,144140,2016,00:00:00/00:01,57043) /usr/lib64/nagios/plugins/check_smtp -H 172.29.43.247
+(icinga,151644,7832,00:00:00/00:00,57045) /usr/bin/perl -w /usr/lib64/nagios/plugins/check_racvision.pl -u http://localhost/racvision.xml
+(root,115304,1700,00:00:00/00:00,57046) /bin/bash /usr/bin/check_mk_agent
+(root,51708,1696,00:00:00/00:00,57064) ps ax -o user:32,vsz,rss,cputime,etime,pid,command --columns 10000
+(root,13320,928,00:00:00/00:00,57065) sed -e 1d -e s/ *\([^ ]*\) *\([^ ]*\) *\([^ ]*\) *\([^ ]*\) *\([^ ]*\) *\([^ ]*\) */(\1,\2,\3,\4\/\5,\6) /
+(logstash,2770540,539292,06:13:54/49-17:34:39,61258) /bin/java -Xss2m -Xms256m -Xmx256m -XX:InitialCodeCacheSize=128m -XX:ReservedCodeCacheSize=128m -XX:+UseSerialGC -XX:+UnlockDiagnosticVMOptions -XX:-UseBiasedLocking -XX:GuaranteedSafepointInterval=300000 -XX:+AlwaysPreTouch -XX:-UsePerfData -XX:+DisableExplicitGC -Djava.awt.headless=true -Dfile.encoding=UTF-8 -XX:+HeapDumpOnOutOfMemoryError -cp /usr/share/logstash/logstash-core/lib/jars/animal-sniffer-annotations-1.14.jar:/usr/share/logstash/logstash-core/lib/jars/commons-codec-1.11.jar:/usr/share/logstash/logstash-core/lib/jars/commons-compiler-3.0.8.jar:/usr/share/logstash/logstash-core/lib/jars/error_prone_annotations-2.0.18.jar:/usr/share/logstash/logstash-core/lib/jars/google-java-format-1.1.jar:/usr/share/logstash/logstash-core/lib/jars/gradle-license-report-0.7.1.jar:/usr/share/logstash/logstash-core/lib/jars/guava-22.0.jar:/usr/share/logstash/logstash-core/lib/jars/j2objc-annotations-1.1.jar:/usr/share/logstash/logstash-core/lib/jars/jackson-annotations-2.9.5.jar:/usr/share/logstash/logstash-core/lib/jars/jackson-core-2.9.5.jar:/usr/share/logstash/logstash-core/lib/jars/jackson-databind-2.9.5.jar:/usr/share/logstash/logstash-core/lib/jars/jackson-dataformat-cbor-2.9.5.jar:/usr/share/logstash/logstash-core/lib/jars/janino-3.0.8.jar:/usr/share/logstash/logstash-core/lib/jars/jruby-complete-9.1.13.0.jar:/usr/share/logstash/logstash-core/lib/jars/jsr305-1.3.9.jar:/usr/share/logstash/logstash-core/lib/jars/log4j-api-2.9.1.jar:/usr/share/logstash/logstash-core/lib/jars/log4j-core-2.9.1.jar:/usr/share/logstash/logstash-core/lib/jars/log4j-slf4j-impl-2.9.1.jar:/usr/share/logstash/logstash-core/lib/jars/logstash-core.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.commands-3.6.0.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.contenttype-3.4.100.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.expressions-3.4.300.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.filesystem-1.3.100.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.jobs-3.5.100.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.resources-3.7.100.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.core.runtime-3.7.0.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.equinox.app-1.3.100.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.equinox.common-3.6.0.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.equinox.preferences-3.4.1.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.equinox.registry-3.5.101.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.jdt.core-3.10.0.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.osgi-3.7.1.jar:/usr/share/logstash/logstash-core/lib/jars/org.eclipse.text-3.5.101.jar:/usr/share/logstash/logstash-core/lib/jars/slf4j-api-1.7.25.jar org.logstash.Logstash --path.settings /etc/logstash/instances/collect
+(rabbitmq,2070368,135500,03:53:33/49-17:34:08,61521) /usr/lib64/erlang/erts-9.2/bin/beam.smp -W w -A 0 -stbt tnnps -S 1 -MMscs 128 -SDio 0 -MBramv true -K true -- -root /usr/lib64/erlang -progname erl -- -home /var/lib/rabbitmq -- -pa /usr/lib/rabbitmq/lib/rabbitmq_server-3.7.6/ebin -noshell -noinput -s rabbit boot -sname rabbit@localhost -boot start_sasl -config /etc/rabbitmq/rabbitmq -kernel inet_dist_use_interface {127,0,0,1} -kernel inet_default_connect_options [{nodelay,true}] -sasl errlog_type error -sasl sasl_error_logger false -rabbit lager_log_root "/var/log/rabbitmq" -rabbit lager_default_file "/var/log/rabbitmq/rabbit@localhost.log" -rabbit lager_upgrade_file "/var/log/rabbitmq/rabbit@localhost_upgrade.log" -rabbit enabled_plugins_file "/etc/rabbitmq/enabled_plugins" -rabbit plugins_dir "/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.7.6/plugins" -rabbit plugins_expand_dir "/var/lib/rabbitmq/mnesia/rabbit@localhost-plugins-expand" -os_mon start_cpu_sup false -os_mon start_disksup false -os_mon start_memsup false -mnesia dir "/var/lib/rabbitmq/mnesia/rabbit@localhost" -kernel inet_dist_listen_min 25672 -kernel inet_dist_listen_max 25672
+(rabbitmq,13604,2428,00:00:52/49-17:34:07,61704) /usr/lib64/erlang/erts-9.2/bin/epmd -daemon
+(rabbitmq,4352,536,00:01:28/49-17:34:07,61748) erl_child_setup 1024
+(rabbitmq,11588,436,00:00:03/49-17:34:06,61752) inet_gethost 4
+(rabbitmq,17936,844,00:00:06/49-17:34:06,61753) inet_gethost 4
+(icinga,1211448,18596,03:29:13/43-01:30:34,81273) /usr/lib64/icinga2/sbin/icinga2 --no-stack-rlimit daemon --close-stdio -e  --reload-internal 73486
+(icinga,1007860,2640,00:22:03/43-01:30:34,81299) /usr/lib64/icinga2/sbin/icinga2 --no-stack-rlimit daemon --close-stdio -e  --reload-internal 73486
+(racvision4,108704,1888,00:00:00/10:14:08,86056) /usr/sbin/httpd -f /omd/sites/racvision4/etc/apache/apache.conf
+(racvision4,333312,62436,00:00:05/10:14:08,86057) /usr/sbin/httpd -f /omd/sites/racvision4/etc/apache/apache.conf
+(racvision4,333312,62436,00:00:05/10:13:08,86424) /usr/sbin/httpd -f /omd/sites/racvision4/etc/apache/apache.conf
+(racvision4,1060436,6604,00:52:07/46-23:15:32,90901) /omd/sites/racvision4/bin/nagios -ud /omd/sites/racvision4/tmp/nagios/nagios.cfg
+(root,366040,10344,00:02:54/47-21:08:38,100485) php-fpm: master process (/etc/opt/rh/rh-php71/php-fpm.conf)
+(apache,446820,13828,00:01:49/47-21:08:38,100486) php-fpm: pool www
+(apache,444764,11948,00:01:49/47-21:08:38,100487) php-fpm: pool www
+(apache,444780,11700,00:01:52/47-21:08:38,100488) php-fpm: pool www
+(apache,444880,11688,00:01:50/47-21:08:38,100489) php-fpm: pool www
+(apache,446796,13684,00:01:48/47-21:08:38,100490) php-fpm: pool www
+(apache,446816,13796,00:01:50/47-21:08:26,100521) php-fpm: pool www
+(apache,446836,13728,00:01:51/47-21:08:25,100530) php-fpm: pool www
+(apache,446836,13712,00:01:51/47-21:08:25,100531) php-fpm: pool www
+(root,478612,16940,00:02:26/47-21:07:23,100970) /usr/sbin/httpd -DFOREGROUND
+(apache,566148,35764,00:00:02/2-07:08:07,112407) /usr/sbin/httpd -DFOREGROUND
+(apache,566148,35712,00:00:02/2-07:08:07,112408) /usr/sbin/httpd -DFOREGROUND
+(apache,566148,35764,00:00:02/2-07:08:07,112409) /usr/sbin/httpd -DFOREGROUND
+(apache,566148,35472,00:00:02/2-07:08:07,112410) /usr/sbin/httpd -DFOREGROUND
+<<<mem>>>
+MemTotal:        3062332 kB
+MemFree:          389296 kB
+MemAvailable:    1328028 kB
+Buffers:          269064 kB
+Cached:           863856 kB
+SwapCached:        44900 kB
+Active:          1795248 kB
+Inactive:         584836 kB
+Active(anon):    1009424 kB
+Inactive(anon):   398084 kB
+Active(file):     785824 kB
+Inactive(file):   186752 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1048572 kB
+SwapFree:         866380 kB
+Dirty:              1208 kB
+Writeback:             0 kB
+AnonPages:       1204768 kB
+Mapped:            45768 kB
+Shmem:            160344 kB
+Slab:             195936 kB
+SReclaimable:     158236 kB
+SUnreclaim:        37700 kB
+KernelStack:        7376 kB
+PageTables:        21236 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     2579736 kB
+Committed_AS:    2693380 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      192012 kB
+VmallocChunk:   34359310332 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:    706560 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:       81792 kB
+DirectMap2M:     3063808 kB
+<<<cpu>>>
+0.11 0.04 0.05 3/338 57070 2
+<<<uptime>>>
+4308456.71 8136993.43
+<<<lnx_if>>>
+[start_iplink]
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: ens192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000
+    link/ether 00:50:56:b4:5e:29 brd ff:ff:ff:ff:ff:ff
+[end_iplink]
+<<<lnx_if:sep(58)>>>
+ens192: 14810619856 48102789    0  175    0     0          0         0 17261308693 53540526    0    0    0     0       0          0
+    lo: 21708362465 68323513    0    0    0     0          0         0 21708362465 68323513    0    0    0     0       0          0
+[lo]
+	Link detected: yes
+	Address: 00:00:00:00:00:00
+
+[ens192]
+	Speed: 10000Mb/s
+	Duplex: Full
+	Auto-negotiation: off
+	Link detected: yes
+	Address: 00:50:56:b4:5e:29
+
+<<<tcp_conn_stats>>>
+0A 24
+01 10
+06 12
+02 4
+<<<diskstat>>>
+1543310049
+   8       0 sda 379720 3162 11116412 6593007 68625563 56041895 1815312036 482107475 0 91114644 476255619
+   8       1 sda1 189 0 8704 652 7 1 28 36 0 303 688
+   8       2 sda2 379501 3162 11105612 6592295 68625556 56041894 1815312008 482107439 0 91116350 476132415
+ 253       0 dm-0 324926 0 6135162 5836202 70373656 0 1320219760 515346655 0 59579063 521644877
+ 253       1 dm-1 3637 0 32800 32048 46009 0 368072 600111 0 13544 632161
+ 253       2 dm-2 54939 0 4934922 766414 54247989 0 494724176 166604630 0 36654878 167506644
+[dmsetup_info]
+vg0-swap 253:1 vg0 swap
+vg0-root 253:0 vg0 root
+vg0-var 253:2 vg0 var
+<<<kernel>>>
+1543310049
+nr_free_pages 96042
+nr_alloc_batch 1363
+nr_inactive_anon 99521
+nr_active_anon 253647
+nr_inactive_file 46688
+nr_active_file 196458
+nr_unevictable 0
+nr_mlock 0
+nr_anon_pages 125851
+nr_mapped 11473
+nr_file_pages 294457
+nr_dirty 291
+nr_writeback 0
+nr_slab_reclaimable 39559
+nr_slab_unreclaimable 9403
+nr_page_table_pages 5286
+nr_kernel_stack 466
+nr_unstable 0
+nr_bounce 0
+nr_vmscan_write 46009
+nr_vmscan_immediate_reclaim 564
+nr_writeback_temp 0
+nr_isolated_anon 0
+nr_isolated_file 0
+nr_shmem 40086
+nr_dirtied 173546718
+nr_written 172546760
+numa_hit 10544626821
+numa_miss 0
+numa_foreign 0
+numa_interleave 15282
+numa_local 10544626821
+numa_other 0
+workingset_refault 1193622
+workingset_activate 394349
+workingset_nodereclaim 0
+nr_anon_transparent_hugepages 345
+nr_free_cma 0
+nr_dirty_threshold 92418
+nr_dirty_background_threshold 30806
+pgpgin 5558206
+pgpgout 907655994
+pswpin 3543
+pswpout 46009
+pgalloc_dma 3118673
+pgalloc_dma32 10693494024
+pgalloc_normal 0
+pgalloc_movable 0
+pgfree 10696724874
+pgactivate 20662031
+pgdeactivate 3595481
+pgfault 21229324794
+pgmajfault 212074
+pgrefill_dma 4971
+pgrefill_dma32 3650750
+pgrefill_normal 0
+pgrefill_movable 0
+pgsteal_kswapd_dma 1073
+pgsteal_kswapd_dma32 1953756
+pgsteal_kswapd_normal 0
+pgsteal_kswapd_movable 0
+pgsteal_direct_dma 0
+pgsteal_direct_dma32 5494
+pgsteal_direct_normal 0
+pgsteal_direct_movable 0
+pgscan_kswapd_dma 1140
+pgscan_kswapd_dma32 2012923
+pgscan_kswapd_normal 0
+pgscan_kswapd_movable 0
+pgscan_direct_dma 0
+pgscan_direct_dma32 5618
+pgscan_direct_normal 0
+pgscan_direct_movable 0
+pgscan_direct_throttle 0
+zone_reclaim_failed 0
+pginodesteal 0
+slabs_scanned 1723776
+kswapd_inodesteal 3
+kswapd_low_wmark_hit_quickly 23
+kswapd_high_wmark_hit_quickly 192
+pageoutrun 569
+allocstall 49
+pgrotated 19037
+drop_pagecache 0
+drop_slab 0
+numa_pte_updates 0
+numa_huge_pte_updates 0
+numa_hint_faults 0
+numa_hint_faults_local 0
+numa_pages_migrated 0
+pgmigrate_success 14702
+pgmigrate_fail 0
+compact_migrate_scanned 27944
+compact_free_scanned 2012624
+compact_isolated 30749
+compact_stall 18
+compact_fail 5
+compact_success 13
+htlb_buddy_alloc_success 0
+htlb_buddy_alloc_fail 0
+unevictable_pgs_culled 0
+unevictable_pgs_scanned 0
+unevictable_pgs_rescued 0
+unevictable_pgs_mlocked 0
+unevictable_pgs_munlocked 0
+unevictable_pgs_cleared 0
+unevictable_pgs_stranded 0
+thp_fault_alloc 5223
+thp_fault_fallback 228319
+thp_collapse_alloc 181
+thp_collapse_alloc_failed 80937
+thp_split 572
+thp_zero_page_alloc 15
+thp_zero_page_alloc_failed 4
+balloon_inflate 0
+balloon_deflate 0
+balloon_migrate 0
+cpu  22229421 3975304 11791131 811683941 457569 0 318229 0 0 0
+cpu0 11267955 1901349 5881013 405826820 268491 0 158762 0 0 0
+cpu1 10961465 2073954 5910118 405857120 189078 0 159467 0 0 0
+intr 2640024396 40 10 0 0 0 0 0 0 1 0 0 0 16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 39032287 61219648 0 61994221 2100582 646234 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 2874566418
+btime 1539001592
+processes 27200841
+procs_running 2
+procs_blocked 0
+softirq 2220068301 0 919915991 861470 168526263 51575831 0 695722 305511442 0 772981582
+<<<md>>>
+Personalities : 
+unused devices: <none>
+<<<vbox_guest>>>
+<<<ntp:cached(1543310023,30)>>>
+<<<chrony:cached(1543310023,30)>>>
+Reference ID    : 00000000 ()
+Stratum         : 0
+Ref time (UTC)  : Thu Jan 01 00:00:00 1970
+System time     : 0.000000000 seconds fast of NTP time
+Last offset     : +0.000000000 seconds
+RMS offset      : 0.000000000 seconds
+Frequency       : 0.000 ppm slow
+Residual freq   : +0.000 ppm
+Skew            : 0.000 ppm
+Root delay      : 1.000000000 seconds
+Root dispersion : 1.000000000 seconds
+Update interval : 0.0 seconds
+Leap status     : Not synchronised
+<<<postfix_mailq>>>
+QUEUE_deferred 4 0
+QUEUE_active 4 0
+<<<postfix_mailq_status:sep(58)>>>
+postfix/:the Postfix mail system is running:PID:1316
+<<<omd_status:cached(1543310023,60)>>>
+[racvision4]
+mkeventd 0
+rrdcached 0
+npcd 0
+nagios 0
+apache 0
+crontab 0
+OVERALL 0
+<<<mknotifyd:sep(0)>>>
+<<<omd_apache:sep(124)>>>
+[racvision4]
+/racvision4/check_mk/run_cron.py|200|3|35302
+
+<<<livestatus_status:sep(59)>>>
+[racvision4]
+accept_passive_host_checks;accept_passive_service_checks;cached_log_messages;check_external_commands;check_host_freshness;check_service_freshness;connections;connections_rate;enable_event_handlers;enable_flap_detection;enable_notifications;execute_host_checks;execute_service_checks;external_command_buffer_max;external_command_buffer_slots;external_command_buffer_usage;external_commands;external_commands_rate;forks;forks_rate;host_checks;host_checks_rate;interval_length;last_command_check;last_log_rotation;livecheck_overflows;livecheck_overflows_rate;livechecks;livechecks_rate;livestatus_active_connections;livestatus_queued_connections;livestatus_threads;livestatus_version;log_messages;log_messages_rate;mk_inventory_last;nagios_pid;neb_callbacks;neb_callbacks_rate;num_hosts;num_services;obsess_over_hosts;obsess_over_services;process_performance_data;program_start;program_version;requests;requests_rate;service_checks;service_checks_rate
+1;1;6;1;1;1;72250;0.0337906;1;1;1;1;1;0;32768;0;0;0;1.34762e+06;0.357169;665349;0.25398;60;1543310049;1543273200;0;0;0;0;1;0;20;1.5.0p3;80562;0.0182682;1539179641;90901;3.13725e+07;7.99348;10;222;0;0;1;1539251917;3.5.0;87649;0.033916;1.43442e+07;2.88315
+<<<mkeventd_status:sep(0)>>>
+["racvision4"]
+[["status_config_load_time", "status_num_open_events", "status_virtual_memory_size", "status_messages", "status_message_rate", "status_average_message_rate", "status_rule_tries", "status_rule_trie_rate", "status_average_rule_trie_rate", "status_rule_hits", "status_rule_hit_rate", "status_average_rule_hit_rate", "status_drops", "status_drop_rate", "status_average_drop_rate", "status_overflows", "status_overflow_rate", "status_average_overflow_rate", "status_events", "status_event_rate", "status_average_event_rate", "status_connects", "status_connect_rate", "status_average_connect_rate", "status_average_processing_time", "status_average_request_time", "status_average_sync_time", "status_replication_slavemode", "status_replication_last_sync", "status_replication_success", "status_event_limit_host", "status_event_limit_rule", "status_event_limit_overall", "status_event_limit_active_hosts", "status_event_limit_active_rules", "status_event_limit_active_overall"], [1539001608.520977, 0, 319008768, 0, 0.0, 0.0, 0, 0.0, 0.0, 0, 0.0, 0.0, 0, 0.0, 0.0, 0, 0.0, 0.0, 0, 0.0, 0.0, 76252, 0.0, 0.031016992559560305, 0.0, 0.0007118354951943385, 0.0, "master", 0.0, false, 1000, 1000, 10000, [], [], false]]
+<<<job>>>
+<<<local>>>
