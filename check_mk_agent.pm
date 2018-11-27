@@ -112,7 +112,6 @@ sub check_df() {
 	$w = 0 unless defined $w;
 	$c = 0 unless defined $c;
 	my $ret = "";
-	my $status = 'OK';
 
 	my @df_datas = $this->{'sections'}{'df'};
 	return  @df_datas;
@@ -124,15 +123,14 @@ sub check_load() {
 	$w1 = 0 unless defined $w1;	$w5 = 0 unless defined $w5;	$w15 = 0 unless defined $w15;
 	$c1 = 0 unless defined $c1;$c5 = 0 unless defined $c5;$c15 = 0 unless defined $c15;
 	my $ret = $OK; my $message = "";
-	my $status = 'OK';
 
 	logD(Dumper($this->{'sections'}{'cpu'}));
 
 	my $load_datas = $this->{'sections'}{'cpu'}[0];
 	my ($l1, $l5, $l15, @unused) = split (' ', $load_datas);
 
-	if    ($l1>$c1 || $l5>$c5 || $l15>$c15 ){ $status = "CRITICAL"; $ret = $CRIT;}
-	elsif ($l1>$w1 || $l5>$w5 || $l15>$w15 ){ $status = "WARNING"; $ret = $WARN;}
+	if    ($l1>$c1 || $l5>$c5 || $l15>$c15 ){ $ret = $CRIT;}
+	elsif ($l1>$w1 || $l5>$w5 || $l15>$w15 ){ $ret = $WARN;}
 #	WARNING - load average: 1.08, 0.63, 0.71|load1=1.080;1.000;2.000;0; load5=0.630;1.000;2.000;0; load15=0.710;1.000;2.000;0;
  	$message = sprintf ("load average %.2f, %.2f, %.2f|load1=%.3f;%.3f;%.3f;0; load5=%.3f;%.3f;%.3f;0; load15=%.3f;%.3f;%.3f;0;", $l1, $l5, $l15, $l1, $w1, $c1, $l5, $w5, $c5, $l15, $w15, $c15);
  	return $ret, $message;
@@ -142,12 +140,11 @@ sub check_mailq() {
 	my $this = shift;
 	my ($w, $c) = @_;
 	my $ret = $OK; my $message = "";
-	my $status = 'OK';
 
 	my $DebugState = $DB::single;
 	$DB::single = 1;
 	my $os = $this->get_os();
-	
+
 	logD("Warning=$w, Critical=$c");
 	logD(Dumper($this->{'sections'}{'postfix_mailq'}));
 	my ($unused1, $size_deferred, $deferred);
@@ -155,8 +152,8 @@ sub check_mailq() {
 	if ($os eq 'linux') {
 		($unused1, $size_deferred, $deferred) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
 		($unused2, $size_active, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[1]);
-		if  ($active > $c) { $status = "CRITICAL"; $ret = $CRIT;}
-		elsif($active > $w) { $status = "WARNING"; $ret = $WARN;}
+		if  ($active > $c) { $ret = $CRIT;}
+		elsif($active > $w) { $ret = $WARN;}
 		$message = sprintf ("mailq length is %d|unsent=%d;%d;%d;0", $active, $active, $w, $c);
 	} elsif ($os eq 'freebsd') {
 		if($this->{'sections'}{'postfix_mailq'}[0] eq 'Mail queue is empty') {
@@ -165,9 +162,9 @@ sub check_mailq() {
 		} else {	# -- 1941 Kbytes in 179 Requests.
 			($unused2, $size_active, $unused3, $unused4, $active) = split (' ', $this->{'sections'}{'postfix_mailq'}[0]);
 		}
-		if  ($active > $c) { $status = "CRITICAL"; $ret = $CRIT;}
-		elsif($active > $w) { $status = "WARNING"; $ret = $WARN;}
-		
+		if  ($active > $c) { $ret = $CRIT;}
+		elsif($active > $w) { $ret = $WARN;}
+
 		$message = sprintf ("mailq length is %d KB|unsent=%d;%d;%d;0", $size_active, $active, $w, $c);
 	}
  	return $ret, $message;
@@ -177,13 +174,12 @@ sub check_procs() {
 	my $this = shift;
 	my ($w, $c) = @_;
 	my $ret = $OK; my $message = "";
-	my $status = 'OK';
 
 	logD(Dumper($this->{'sections'}{'ps'}));
 
 	my $proc_count = scalar @{ $this->{'sections'}{'ps'} };
-	if  ($proc_count > $c) { $status = "CRITICAL"; $ret = $CRIT;}
-	elsif($proc_count > $w) { $status = "WARNING"; $ret = $WARN;}
+	if  ($proc_count > $c) {$ret = $CRIT;}
+	elsif($proc_count > $w) {$ret = $WARN;}
 	$message = sprintf ("%d processes | procs=%d;%s;%s;0;", $proc_count, $proc_count, $w==1E9?'':$w, $c==1E9?'':$c);
  	return $ret, $message;
 }
@@ -203,7 +199,6 @@ sub check_memory() {
 	my $this = shift;
 	my ($w, $c) = @_;
 	my $ret = $OK; my $message = "";
-	my $status = 'OK';
 	my $label; my $point;
 	my $unit;
 	my $MemTotal; my $MemFree; my $SwapTotal; my $SwapFree, my $PageTables; my $MemCache;
@@ -213,7 +208,7 @@ sub check_memory() {
 	my $DebugState = $DB::single;
 	$DB::single = 1;
 	my $os = $this->get_os();
-	
+
 	logD("Warning=$w, Critical=$c");
 	if ($os eq 'linux') {
 		logD(Dumper($this->{'sections'}{'mem'}));
@@ -230,7 +225,7 @@ sub check_memory() {
 		my $Mapped_t		= $this->{'sections'}{'mem'}[19];
 		my $PageTables_t	= $this->{'sections'}{'mem'}[25];
 		my $CommitedAs_t	= $this->{'sections'}{'mem'}[30];
-	
+
 		($label, $MemTotal, $unit)		= split (/\W+/,  $MemTotal_t);
 		($label, $MemFree, $unit)		= split (/\W+/,  $MemFree_t);
 		($label, $SwapTotal, $unit)		= split (/\W+/,  $SwapTotal_t);
@@ -238,7 +233,7 @@ sub check_memory() {
 		($label, $Mapped, $unit)		= split (/\W+/,  $Mapped_t);
 		($label, $PageTables, $unit)	= split (/\W+/,  $PageTables_t);
 		($label, $CommitedAs, $unit)	= split (/\W+/,  $CommitedAs_t);
-	
+
 		$MemTotal /= 1024;
 		$MemFree /= 1024;
 		$PageTables /= 1024;
@@ -247,9 +242,9 @@ sub check_memory() {
 		$RAMUsed = $MemTotal - $MemFree;
 		$SwapUsed = $SwapTotal - $SwapFree;
 		$MemTotalTotalUsed = $RAMUsed + $SwapUsed + $PageTables;
-	
-		if  ($MemTotalTotalUsed > $c) { $status = "CRITICAL"; $ret = $CRIT;}
-		elsif($MemTotalTotalUsed > $w) { $status = "WARNING"; $ret = $WARN;}
+
+		if  ($MemTotalTotalUsed > $c) {$ret = $CRIT;}
+		elsif($MemTotalTotalUsed > $w) {$ret = $WARN;}
 		$message .= sprintf ("%d MB used (%d RAM + %d SWAP + %d PageTables, this is %.1f%% of %d (%.2f total SWAP))", $MemTotalTotalUsed, $RAMUsed, $SwapUsed, $PageTables, $RAMUsed/$MemTotal*100, $MemTotal, $SwapTotal );
 		$message .= sprintf("|ramused=%dMB;;;0;%.4f ", $RAMUsed, $MemTotal);
 		$message .= sprintf("swapused=%dMB;;;0;%d ", $SwapUsed, $SwapTotal );
@@ -283,8 +278,8 @@ sub check_memory() {
 		$SwapFree /= 1024; $SwapTotal /= 1024; $SwapUsed /= 1024;
 		$MemTotalTotalUsed = $MemUsed + $SwapUsed + $MemCache;
 		$MemTotal = $MemTotal + $SwapTotal;
-		if  ($MemTotalTotalUsed > $c) { $status = "CRITICAL"; $ret = $CRIT;}
-		elsif($MemTotalTotalUsed > $w) { $status = "WARNING"; $ret = $WARN;}
+		if  ($MemTotalTotalUsed > $c) {$ret = $CRIT;}
+		elsif($MemTotalTotalUsed > $w) {$ret = $WARN;}
 		$message .= sprintf ("%d MB used (%d RAM + %d SWAP + %d Cache, this is %.1f%% of %d (%.2f total SWAP))",
 			$MemTotalTotalUsed, $MemUsed, $SwapUsed, $MemCache, $MemTotalTotalUsed/$MemTotal*100,
 			$MemTotalTotalUsed, $SwapTotal );
@@ -310,7 +305,37 @@ sub check_uptime(){
 	return $ret, $message;
 }
 
+sub check_mount() {
+	my $this = shift;
+	my ($mountpoint, $w, $c) = @_;
+	my $ret = $OK; my $message = "";
+	my($dev, $type, $total, $used, $avail, $percent, $mnt);
 
+	my @df = @{$this->{'sections'}{'df'}};
+	logD(Dumper($this->{'sections'}{'df'}));
+
+	my $found = 0;
+	foreach my $line (@df) {
+		last if $line =~ /\[df_inodes_start\]/;
+		($dev, $type, $total, $used, $avail, $percent, $mnt) = split (/\s+/, $line);
+		if ($mnt eq $mountpoint) {
+			$found = 1;
+			$percent = $used/$total*100;
+			if  ($percent > $c) {$ret = $CRIT;}
+			elsif($percent > $w) {$ret = $WARN;}
+			last;
+		}
+	}
+	if ($found) {
+		$percent = $used/$total*100;
+		$message .= sprintf ("%.1f%% used (%.2f of %.2f GB), (levels at %.2f/%.2f%%)", $percent, $used/1048576, $total/1048576, $w, $c);
+		$message .= sprintf("|%.4fMB;%.1f;%.1f;0;%d", $used/1024, $total*$w/102400, $total*$c/102400, $total/1024 );
+	} else {
+		$ret = $UNKN;
+		$message = "No such filesytem";
+	}
+	return $ret, $message;
+}
 
 
 
