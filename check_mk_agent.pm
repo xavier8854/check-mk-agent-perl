@@ -141,8 +141,6 @@ sub check_mailq() {
 	my ($w, $c) = @_;
 	my $ret = $OK; my $message = "";
 
-	my $DebugState = $DB::single;
-	$DB::single = 1;
 	my $os = $this->get_os();
 
 	logD("Warning=$w, Critical=$c");
@@ -336,6 +334,78 @@ sub check_mount() {
 	}
 	return $ret, $message;
 }
+
+sub check_if() {
+	my $this = shift;
+	my ($interface, $w, $c) = @_;
+	my ($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+		$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress);
+	my ($speed, $duplex, $up, $mac);
+	my $ret = $OK; my $message = "";
+
+	logD(Dumper($this->{'sections'}{'lnx_if:sep(58)'}));
+
+
+	my @lines = @{$this->{'sections'}{'lnx_if:sep(58)'}};
+	my $collectstate  = 0;
+	for (my $i=0; $i < scalar @lines; $i++) {
+		my $line = $lines[$i];
+		next if $line =~ /^$/;
+		if ($collectstate == 0) {
+			if ($line =~ /^\[(.*)\]/) {
+				$collectstate = 1;
+				$i--;
+				next;
+			}
+			my ($intf, $values) = split (/:/, $line);
+			if ($intf eq $interface) {
+				my $DebugState = $DB::single;
+				$DB::single = 1;
+				$values =~ s/^\s+//;
+				($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+					$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress) = split (/\s+/, $values);
+# 				if  ($count > $c) {$ret = $CRIT;}
+# 				elsif($count > $w) {$ret = $WARN;}
+			}
+
+		} elsif ($collectstate == 1) {
+			if ($line =~ /^\[(.*)\]/) {
+				if ($1 eq $interface) {
+					$collectstate = 2;
+				}
+			}
+		} elsif ($collectstate == 2) {
+			last if ($line =~ /^\[(.*)\]/);
+			my ($key, $value) = split (':', $line, 2);
+			$speed  = $value if ($key =~ /\tSpeed/);
+			$duplex  = $value if ($key =~ /\tDuplex/);
+			$up  = $value if ($key =~ /\tLink detected/);
+			$mac = $value if ($key =~ /\tAddress/);
+		}
+	}
+	if ($up =~ /yes/) {
+		$up = "on";
+	} else {
+		$up = "down";
+		$ret = $CRIT;
+	}
+
+
+	$message .= sprintf ("[000] (%s) MAC: %s, %s, in : %.2f kB/s, out: %.2f kB/s", $up, $mac, $speed, $rcvbytes/1024, $trbytes/1024);
+	my $inerr = ($rcverrs + $rcvdrops)/$rcvpackets;
+	my $outerr = ($trerrs + $trdrops)/$trpackets;
+	$message .= sprintf("in=%.4f;;;0;125000000", $rcvbytes);
+
+
+	return $ret, $message;
+}
+# Inter-|   Receive                                                   |  Transmit
+#  face |      bytes packets errs drop fifo frame compressed multicast|   bytes packets errs drop fifo colls carrier compressed
+#     lo:    5058902   24373    0    0    0     0          0         0  5058902   24373    0    0    0     0       0          0
+# enp1s0: 1356938378 1464251    0    0    0     0          0     20422 90429330  810052    0    0    0     0       0          0
+# Output of check plugin	OK - [480] (up) MAC: 00:23:e9:fb:08:43, 1 Gbit/s, in: 5.88 kB/s, out: 6.46 kB/s
+# Service performance data	in=6019.828943;;;0;125000000 inucast=36.214211;;;; innucast=0;;;; indisc=0;;;; inerr=0;0.01;0.1;; out=6612.383693;;;0;125000000 outucast=38.503998;;;; \
+#	outnucast=0;;;; outdisc=0;;;; outerr=0;0.01;0.1;; outqlen=0;;;0;
 
 
 

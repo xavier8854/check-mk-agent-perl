@@ -40,6 +40,7 @@ use Nagios::Plugin;
 use lib '.';
 use check_mk_agent;
 
+
 #####
 ## PROTOS
 #####
@@ -92,13 +93,13 @@ $np->add_arg (
 $np->add_arg (
 	spec => 'w=i',
 	help => 'Warning threshold',
-	default => 1E9,
+	default => 0.01,
 	label => 'STRING'
 );
 $np->add_arg (
 	spec => 'c=i',
 	help => 'Critical threshold',
-	default => 1E9,
+	default => 0.1,
 	label => 'STRING'
 );
 
