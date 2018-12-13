@@ -335,10 +335,19 @@ sub check_mount() {
 	return $ret, $message;
 }
 
-sub check_if() {
+sub check_if () {
 	my $this = shift;
 	my ($interface, $w, $c) = @_;
-	my ($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+	my $os = $this->get_os();
+	if ($os eq 'linux') {
+		return $this->check_if_linux ($interface, $w, $c);
+	}
+}
+
+sub check_if_linux() {
+	my $this = shift;
+	my ($interface, $w, $c) = @_;
+	my ($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
 		$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress);
 	my ($speed, $duplex, $up, $mac);
 	my $ret = $OK; my $message = "";
@@ -359,13 +368,11 @@ sub check_if() {
 			}
 			my ($intf, $values) = split (/:/, $line);
 			if ($intf eq $interface) {
-				my $DebugState = $DB::single;
-				$DB::single = 1;
+# 				my $DebugState = $DB::single;
+# 				$DB::single = 1;
 				$values =~ s/^\s+//;
-				($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+				($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
 					$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress) = split (/\s+/, $values);
-# 				if  ($count > $c) {$ret = $CRIT;}
-# 				elsif($count > $w) {$ret = $WARN;}
 			}
 
 		} elsif ($collectstate == 1) {
@@ -377,6 +384,7 @@ sub check_if() {
 		} elsif ($collectstate == 2) {
 			last if ($line =~ /^\[(.*)\]/);
 			my ($key, $value) = split (':', $line, 2);
+			$value =~ s/^\s+//;
 			$speed  = $value if ($key =~ /\tSpeed/);
 			$duplex  = $value if ($key =~ /\tDuplex/);
 			$up  = $value if ($key =~ /\tLink detected/);
@@ -389,35 +397,72 @@ sub check_if() {
 		$up = "down";
 		$ret = $CRIT;
 	}
-
-
-	$message .= sprintf ("[000] (%s) MAC: %s, %s, in : %.2f kB/s, out: %.2f kB/s", $up, $mac, $speed, $rcvbytes/1024, $trbytes/1024);
 	my $inerr = ($rcverrs + $rcvdrops)/$rcvpackets;
 	my $outerr = ($trerrs + $trdrops)/$trpackets;
-	$message .= sprintf("in=%.4f;;;0;125000000", $rcvbytes);
+	if (($inerr > $c) || ($outerr > $c)) {$ret = $CRIT;}
+	if (($inerr > $w) || ($outerr > $w)) {$ret = $WARN;}
+
+	$message .= sprintf ("[000] (%s) MAC: %s, %s, in: %.2f kB/s, out: %.2f kB/s", $up, $mac, $speed, $rcvbytes/1024, $trbytes/1024);
+	$message .= sprintf("|in=%.4f;;;0;125000000 indisc=%d;;;; inerr=%d;%.2f;%.2f;; out=%.4f;;;0;125000000", $rcvbytes, $rcvdrops, $inerr, $w, $c, $trbytes);
+
+	return $ret, $message;
+}
+
+sub check_diskio () {
+	my $this = shift;
+
+	my $os = $this->get_os();
+	if ($os eq 'linux') {
+		return $this->check_diskio_linux();
+	} else if ($os eq 'freebds') {
+		return $this->check_diskio_freebsd();
+	}
+}
+
+sub check_diskio_linux() {
+	my $this = shift;
+	my $ret = $OK; my $message = "";
+	my ($major, $minor, $devname,
+		$readcompl, $readmerg, $readsect, $readtime,
+		$writecompl, $writemerg, $writesect, $writetime,
+		$iocount, $iotime, $ioweithtedtime);
+
+	my @lines = @{$this->{'sections'}{'diskstat'}};
+	logD(Dumper(@lines));
+	my $DebugState = $DB::single;
+	$DB::single = 1;
+
+	for (my $i=1; $i < scalar @lines; $i++) {	# start at 1, skip timestamp
+		my $line = $lines[$i];
+		$line =~ s/^\s+//;
+		last if $line =~ /dmsetup_info/;
+		($major, $minor, $devname,
+			$readcompl, $readmerg, $readsect, $readtime,
+			$writecompl, $writemerg, $writesect, $writetime,
+			$iocount, $iotime, $ioweithtedtime) = split (/\s+/, $line, 14);
+		if($devname !~ /[0-9]+/) {
+			last;
+		}
+	}
+	my $totalreadpersec = ($readcompl+$readmerg)/$readtime*1000;
+	my $totalwritepersec = ($writecompl+$writemerg)/$writetime*1000;
+
+	my $iorate = ( $readcompl+$readmerg+$writecompl+$writemerg)/$iotime;
+	$message .= sprintf("%.2f kB/s read, %.2f kB/s write, IOs %.2f/sec", $totalreadpersec/1024, $totalwritepersec/1024, $iorate);
+	$message .= sprintf("|read=%.4f;;;; write=%.4f", $totalreadpersec, $totalwritepersec);
+	return $ret, $message;
+}
+
+sub check_diskio_freebsd() {
+	my $this = shift;
+	my $ret = $OK; my $message = "";
+
+
+
 
 
 	return $ret, $message;
 }
-# Inter-|   Receive                                                   |  Transmit
-#  face |      bytes packets errs drop fifo frame compressed multicast|   bytes packets errs drop fifo colls carrier compressed
-#     lo:    5058902   24373    0    0    0     0          0         0  5058902   24373    0    0    0     0       0          0
-# enp1s0: 1356938378 1464251    0    0    0     0          0     20422 90429330  810052    0    0    0     0       0          0
-# Output of check plugin	OK - [480] (up) MAC: 00:23:e9:fb:08:43, 1 Gbit/s, in: 5.88 kB/s, out: 6.46 kB/s
-# Service performance data	in=6019.828943;;;0;125000000 inucast=36.214211;;;; innucast=0;;;; indisc=0;;;; inerr=0;0.01;0.1;; out=6612.383693;;;0;125000000 outucast=38.503998;;;; \
-#	outnucast=0;;;; outdisc=0;;;; outerr=0;0.01;0.1;; outqlen=0;;;0;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

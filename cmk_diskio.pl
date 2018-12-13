@@ -65,8 +65,8 @@ my $verbose = 0;
 
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
-	blurb => 'Plugin to check Interfaces',
-	usage => "Usage: %s [ -v|--verbose ]  -H <host> -I interface [-t <timeout>] [ -c|--critical=<thresholds> ] [ -w|--warning=<thresholds>",
+	blurb => 'Plugin to check Disk IOs',
+	usage => "Usage: %s [ -v|--verbose ]  -H <host> [-t <timeout>]",
 	timeout => $TIMEOUT+1
 );
 $np->add_arg (
@@ -80,33 +80,13 @@ $np->add_arg (
 	default => 'localhost',
 );
 $np->add_arg (
-	spec => 'I=s',
-	help => 'Interface on the remote host.',
-	default => "enp1s0",
-# 	required => 1,
-);
-$np->add_arg (
 	spec => 'p=i',
 	help => 'port',
 	default => 6556,
 );
-$np->add_arg (
-	spec => 'w=i',
-	help => 'Warning threshold',
-	default => 0.01,
-	label => 'STRING'
-);
-$np->add_arg (
-	spec => 'c=i',
-	help => 'Critical threshold',
-	default => 0.1,
-	label => 'STRING'
-);
 
 $np->getopts;
 
-my $warn_t = $np->opts->get('w');
-my $crit_t = $np->opts->get('c');
 my $host = $np->opts->get('H');
 my $interface = $np->opts->get('I');
 my $port = $np->opts->get('p');
@@ -114,7 +94,7 @@ $DEBUG = $np->opts->get('debug');
 $verbose = $np->opts->verbose;
 
 my $checker = check_mk_agent->new(PeerAddr => $host, PeerPort => $port, debug => $DEBUG);
-my ($status, $message) = $checker->check_if($interface, $warn_t, $crit_t);
+my ($status, $message) = $checker->check_diskio();
 
 $np->nagios_exit($status, $message );
 
