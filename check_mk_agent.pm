@@ -414,7 +414,7 @@ sub check_diskio () {
 	my $os = $this->get_os();
 	if ($os eq 'linux') {
 		return $this->check_diskio_linux();
-	} else if ($os eq 'freebds') {
+	} elsif ($os eq 'freebds') {
 		return $this->check_diskio_freebsd();
 	}
 }
@@ -457,7 +457,7 @@ sub check_diskio_freebsd() {
 	my $this = shift;
 	my $ret = $OK; my $message = "";
 
-
+	logD(Dumper())
 
 
 
