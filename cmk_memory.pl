@@ -84,14 +84,14 @@ $np->add_arg (
 	default => 6556,
 );
 $np->add_arg (
-	spec => 'w=i',
+	spec => 'w=f',
 	help => 'Warning threshold',
-	default => 1000,
+	default => 60.0,
 );
 $np->add_arg (
-	spec => 'c=i',
+	spec => 'c=f',
 	help => 'Critical threshold',
-	default => 2000,
+	default => 80.0,
 );
 
 $np->getopts;
