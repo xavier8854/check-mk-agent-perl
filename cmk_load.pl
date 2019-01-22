@@ -64,6 +64,9 @@ my $verbose = 0;
 ## MAIN
 #####
 
+my $dir = dirname($0);
+cd $dir || die "No such directory $dir";
+
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
 	blurb => 'Plugin to check load on remote host',
