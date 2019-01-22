@@ -65,7 +65,7 @@ my $verbose = 0;
 #####
 
 my $dir = dirname($0);
-cd $dir || die "No such directory $dir";
+chdir $dir || die "No such directory $dir";
 
 my $np = Nagios::Plugin->new(
 	version => $VERSION,
