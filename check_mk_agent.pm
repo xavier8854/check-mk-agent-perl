@@ -115,7 +115,6 @@ sub check_df() {
 	my $ret = "";
 
 	my @df_datas = $this->{'sections'}{'df'};
-	die "Undefined section" if not defined @df_datas;
 	return  @df_datas;
 }
 
@@ -129,7 +128,6 @@ sub check_load() {
 	logD(Dumper($this->{'sections'}{'cpu'}));
 
 	my $load_datas = $this->{'sections'}{'cpu'}[0];
-	die "Undefined section" if not defined $load_datas;
 
 	my ($l1, $l5, $l15, @unused) = split (' ', $load_datas);
 
