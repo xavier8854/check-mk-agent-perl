@@ -73,6 +73,7 @@ sub new () {
     my $sock = IO::Socket::INET->new(Proto => 'tcp', PeerAddr => $args{'PeerAddr'}, PeerPort => $args{'PeerPort'})
 	   or die "connect failed: $!";
 	my @lines = <$sock>;
+	die "No answer from Check_Mk" if (scalar (@lines) == 0);
 	close $sock;
 	$this->{'lines'} = \@lines;
 	$this->readSections();
