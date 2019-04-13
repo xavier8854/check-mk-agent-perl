@@ -39,7 +39,6 @@ use warnings;
 use Data::Dumper;
 use Data::Dumper;
 use IO::Socket;
-use Scalar::Util::Numeric qw(isnum isint isfloat);
 #~ use DB;
 
 require Exporter;
@@ -129,7 +128,6 @@ sub check_load() {
 	logD(Dumper($this->{'sections'}{'cpu'}));
 
 	my $load_datas = $this->{'sections'}{'cpu'}[0];
-
 	my ($l1, $l5, $l15, @unused) = split (' ', $load_datas);
 
 	if    ($l1>$c1 || $l5>$c5 || $l15>$c15 ){ $ret = $CRIT;}
@@ -165,6 +163,7 @@ sub check_mailq() {
 		}
 		if  ($active > $c) { $ret = $CRIT;}
 		elsif($active > $w) { $ret = $WARN;}
+
 		$message = sprintf ("mailq length is %d KB|unsent=%d;%d;%d;0", $size_active, $active, $w, $c);
 	}
  	return $ret, $message;
@@ -195,114 +194,100 @@ sub get_info() {
 	return $ret, $message;
 }
 
-sub mem_get_value() {
-	my $this = shift;
-	my $text = shift;
-	my ($label, $value, $unit) = split (/\W+/, $text);
-	return $value;
-}
-sub check_memory_linux() {
-	my $this = shift;
-	my ($w, $c) = @_;
-	my $ret = $OK; my $message = "";
-	my $SwapUsed; my $MemUsed; my $Caches; my $PageTables; my $TotalUsed_kb; my $TotalUsed_mb;
-	my $TotalMem_kb; my $TotalMem_mb; my $TotalUsed_pc; my $TotalVirt_mb;
-	my $PgText = "";
-
-	logD("Warning=$w, Critical=$c");
-	logD(Dumper($this->{'sections'}{'mem'}));
-	my $MemTotal_t		= $this->{'sections'}{'mem'}[0];
-	my $MemFree_t		= $this->{'sections'}{'mem'}[1];
-	my $Buffers_t		= $this->{'sections'}{'mem'}[3];
-	my $Cached_t		= $this->{'sections'}{'mem'}[4];
-	my $SwapTotal_t		= $this->{'sections'}{'mem'}[14];
-	my $SwapFree_t		= $this->{'sections'}{'mem'}[15];
-	my $PageTables_t	= $this->{'sections'}{'mem'}[25];
-
-# 		my $DebugState = $DB::single;
-# 		$DB::single = 1;
-	$SwapUsed = $this->mem_get_value ($SwapTotal_t) - $this->mem_get_value ($SwapFree_t);
-	$MemUsed = $this->mem_get_value ($MemTotal_t) - $this->mem_get_value ($MemFree_t);
-	$Caches = $this->mem_get_value ($Buffers_t) + $this->mem_get_value ($Cached_t);
-	$PageTables = $this->mem_get_value ($PageTables_t);
-	$TotalUsed_kb = $SwapUsed + $MemUsed - $Caches + $PageTables;
-	$TotalUsed_mb = $TotalUsed_kb / 1024;
-	$TotalMem_kb = $this->mem_get_value ($MemTotal_t);
-	$TotalMem_mb = $TotalMem_kb / 1024;
-	$TotalUsed_pc = ($TotalUsed_kb / $TotalMem_kb) * 100;
-	$TotalVirt_mb = ($this->mem_get_value ($SwapTotal_t) + $this->mem_get_value ($MemTotal_t)) / 1024;
-
-	if ($PageTables > 0) {
-		$PgText = sprintf (" + %.2f Pagetables", $PageTables / 1048576.0);
-	}
-	if (isfloat($w)) {
-		$w = $w * $TotalMem_mb /100;
-		$c = $c * $TotalMem_mb /100;
-	}
-	if  ($TotalUsed_mb > $c) {$ret = $CRIT;}
-	elsif($TotalUsed_mb > $w) {$ret = $WARN;}
-	$message .= sprintf ("%.2f GB used (%.2f RAM + %.2f SWAP%s, this is %.1f%% of %.2f RAM (%.2f total SWAP)",
-		$TotalUsed_mb / 1024, ($MemUsed - $Caches) / 1024, $SwapUsed / 1048576.0,
-		$PgText, $TotalUsed_pc, $TotalMem_mb / 1024, $this->mem_get_value ($SwapTotal_t) / 1048576);
-	$message .= sprintf("|ramused=%dMB;;;0;%.4f ", ($MemUsed - $Caches) / 1024, $TotalMem_mb);
-	$message .= sprintf("swapused=%dMB;;;0;%d ", $SwapUsed / 1024, $this->mem_get_value ($SwapTotal_t) / 1024);
-	$message .= sprintf("memused=%.4f;%d;%d;0;%d", $TotalUsed_mb, $w, $c, $TotalVirt_mb);
-
-	return $ret, $message;
-}
-
-sub check_memory_freebsd() {
-	my $this = shift;
-	my ($w, $c) = @_;
-	my $ret = $OK; my $message = "";
-	my $SwapUsed; my $MemUsed; my $Caches; my $PageTables; my $TotalUsed_kb; my $TotalUsed_mb;
-	my $TotalMem_kb; my $TotalMem_mb; my $TotalUsed_pc; my $TotalVirt_mb;
-	my $PgText = "";
-
-	my $Cached_t		= $this->{'sections'}{'statgrab_mem'}[0];
-	my $MemFree_t		= $this->{'sections'}{'statgrab_mem'}[1];
-	my $MemTotal_t		= $this->{'sections'}{'statgrab_mem'}[2];
-	my $MemUsed_t		= $this->{'sections'}{'statgrab_mem'}[3];
-	my $SwapFree_t		= $this->{'sections'}{'statgrab_mem'}[4];
-	my $SwapTotal_t		= $this->{'sections'}{'statgrab_mem'}[5];
-	my $SwapUsed_t		= $this->{'sections'}{'statgrab_mem'}[6];
-
-	$SwapUsed = $this->mem_get_value ($SwapTotal_t) - $this->mem_get_value ($SwapFree_t);
-	$MemUsed = $this->mem_get_value ($MemTotal_t) - $this->mem_get_value ($MemFree_t);
-	$Caches = 0;
-	$PageTables = 0;
-	$TotalUsed_kb = $SwapUsed + $MemUsed - $Caches + $PageTables;
-	$TotalUsed_mb = $TotalUsed_kb / 1024;
-	$TotalMem_kb = $this->mem_get_value ($MemTotal_t);
-	$TotalMem_mb = $TotalMem_kb / 1024;
-	$TotalUsed_pc = ($TotalUsed_kb / $TotalMem_kb) * 100;
-	$TotalVirt_mb = ($this->mem_get_value ($SwapTotal_t) + $this->mem_get_value ($MemTotal_t)) / 1024;
-	if (isfloat($w)) {
-		$w = $w * $TotalMem_mb /100;
-		$c = $c * $TotalMem_mb /100;
-	}
-	if  ($TotalUsed_mb > $c) {$ret = $CRIT;}
-	elsif($TotalUsed_mb > $w) {$ret = $WARN;}
-	$message .= sprintf ("%.2f GB used (%.2f RAM + %.2f SWAP%s, this is %.1f%% of %.2f RAM (%.2f total SWAP)",
-		$TotalUsed_mb / 1024, ($MemUsed - $Caches) / 1024, $SwapUsed / 1048576.0,
-		$PgText, $TotalUsed_pc, $TotalMem_mb / 1024, $this->mem_get_value ($SwapTotal_t) / 1048576);
-	$message .= sprintf("|ramused=%dMB;;;0;%.4f ", ($MemUsed - $Caches) / 1024, $TotalMem_mb);
-	$message .= sprintf("swapused=%dMB;;;0;%d ", $SwapUsed / 1024, $this->mem_get_value ($SwapTotal_t) / 1024);
-	$message .= sprintf("memused=%.4f;%d;%d;0;%d", $TotalUsed_mb, $w, $c, $TotalVirt_mb);
-
-	return $ret, $message;
-}
-
 sub check_memory() {
 	my $this = shift;
 	my ($w, $c) = @_;
+	my $ret = $OK; my $message = "";
+	my $label; my $point;
+	my $unit;
+	my $MemTotal; my $MemFree; my $SwapTotal; my $SwapFree, my $PageTables; my $MemCache;
+	my $Mapped; my $CommitedAs;
+	my $MemTotalTotalUsed, my $MemUsed; my $RAMUsed; my $SwapUsed;
 
+	my $DebugState = $DB::single;
+	$DB::single = 1;
 	my $os = $this->get_os();
+
+	logD("Warning=$w, Critical=$c");
 	if ($os eq 'linux') {
-		return $this->check_memory_linux($w, $c);
+		logD(Dumper($this->{'sections'}{'mem'}));
+		my $MemTotal_t		= $this->{'sections'}{'mem'}[0];
+		my $MemFree_t		= $this->{'sections'}{'mem'}[1];
+		my $MemAvailable_t	= $this->{'sections'}{'mem'}[2];
+		my $Buffers_t		= $this->{'sections'}{'mem'}[3];
+		my $Cached_t		= $this->{'sections'}{'mem'}[4];
+		my $SwapCached_t	= $this->{'sections'}{'mem'}[5];
+		my $Active_t		= $this->{'sections'}{'mem'}[6];
+		my $Inactive_t		= $this->{'sections'}{'mem'}[7];
+		my $SwapTotal_t		= $this->{'sections'}{'mem'}[14];
+		my $SwapFree_t		= $this->{'sections'}{'mem'}[15];
+		my $Mapped_t		= $this->{'sections'}{'mem'}[19];
+		my $PageTables_t	= $this->{'sections'}{'mem'}[25];
+		my $CommitedAs_t	= $this->{'sections'}{'mem'}[30];
+
+		($label, $MemTotal, $unit)		= split (/\W+/,  $MemTotal_t);
+		($label, $MemFree, $unit)		= split (/\W+/,  $MemFree_t);
+		($label, $SwapTotal, $unit)		= split (/\W+/,  $SwapTotal_t);
+		($label, $SwapFree, $unit)		= split (/\W+/,  $SwapFree_t);
+		($label, $Mapped, $unit)		= split (/\W+/,  $Mapped_t);
+		($label, $PageTables, $unit)	= split (/\W+/,  $PageTables_t);
+		($label, $CommitedAs, $unit)	= split (/\W+/,  $CommitedAs_t);
+
+		$MemTotal /= 1024;
+		$MemFree /= 1024;
+		$PageTables /= 1024;
+		$SwapTotal /= 1024;
+		$SwapFree /= 1024;
+		$RAMUsed = $MemTotal - $MemFree;
+		$SwapUsed = $SwapTotal - $SwapFree;
+		$MemTotalTotalUsed = $RAMUsed + $SwapUsed + $PageTables;
+
+		if  ($MemTotalTotalUsed > $c) {$ret = $CRIT;}
+		elsif($MemTotalTotalUsed > $w) {$ret = $WARN;}
+		$message .= sprintf ("%d MB used (%d RAM + %d SWAP + %d PageTables, this is %.1f%% of %d (%.2f total SWAP))", $MemTotalTotalUsed, $RAMUsed, $SwapUsed, $PageTables, $RAMUsed/$MemTotal*100, $MemTotal, $SwapTotal );
+		$message .= sprintf("|ramused=%dMB;;;0;%.4f ", $RAMUsed, $MemTotal);
+		$message .= sprintf("swapused=%dMB;;;0;%d ", $SwapUsed, $SwapTotal );
+		$message .= sprintf("memused=%.4f;%d;%d;0;%d", $MemTotalTotalUsed, $w, $c, $MemTotal+$SwapTotal);
+	#	OK - 0.71 GB used (0.69 RAM + 0.01 SWAP + 0.01 Pagetables, this is 39.3% of 1.80 RAM (3.91 total SWAP)), 0.0 mapped, 0.9 committed, 0.1 shared
+	#	ramused=705MB;;;0;1840.34375 swapused=9MB;;;0;4003 memused=723.1796875MB;2760;3680;0;5844.339844 mapped=38MB;;;; committed_as=957MB;;;; pagetables=8.3515625MB;;;; shared=111MB;;;;
 	} elsif ($os eq 'freebsd') {
-		return $this->check_memory_freebsd($w, $c);
+		logD(Dumper($this->{'sections'}{'statgrab_mem'}));
+		#~ 'mem.cache 0',
+		#~ 'mem.free 5437435904',
+		#~ 'mem.total 16654921728',
+		#~ 'mem.used 11217485824',
+		#~ 'swap.free 22315388928',
+		#~ 'swap.total 23622320128',
+		#~ 'swap.used 1306931200'
+		my $MemCache_t		= $this->{'sections'}{'statgrab_mem'}[0];
+		my $MemFree_t		= $this->{'sections'}{'statgrab_mem'}[1];
+		my $MemTotal_t		= $this->{'sections'}{'statgrab_mem'}[1];
+		my $MemUsed_t		= $this->{'sections'}{'statgrab_mem'}[3];
+		my $SwapFree_t		= $this->{'sections'}{'statgrab_mem'}[4];
+		my $SwapTotal_t		= $this->{'sections'}{'statgrab_mem'}[5];
+		my $SwapUsed_t		= $this->{'sections'}{'statgrab_mem'}[6];
+		($label, $point, $MemCache)		= split (/\W+/,  $MemCache_t);
+		($label, $point, $MemFree)		= split (/\W+/,  $MemFree_t);
+		($label, $point, $MemTotal)		= split (/\W+/,  $MemTotal_t);
+		($label, $point, $MemUsed)		= split (/\W+/,  $MemUsed_t);
+		($label, $point, $SwapFree)		= split (/\W+/,  $SwapFree_t);
+		($label, $point, $SwapTotal)	= split (/\W+/,  $SwapTotal_t);
+		($label, $point, $SwapUsed)		= split (/\W+/,  $SwapUsed_t);
+		$MemCache /= 1024; $MemFree /= 1024; $MemTotal /= 1024; $MemUsed /= 1024;
+		$SwapFree /= 1024; $SwapTotal /= 1024; $SwapUsed /= 1024;
+		$MemTotalTotalUsed = $MemUsed + $SwapUsed + $MemCache;
+		$MemTotal = $MemTotal + $SwapTotal;
+		if  ($MemTotalTotalUsed > $c) {$ret = $CRIT;}
+		elsif($MemTotalTotalUsed > $w) {$ret = $WARN;}
+		$message .= sprintf ("%d MB used (%d RAM + %d SWAP + %d Cache, this is %.1f%% of %d (%.2f total SWAP))",
+			$MemTotalTotalUsed, $MemUsed, $SwapUsed, $MemCache, $MemTotalTotalUsed/$MemTotal*100,
+			$MemTotalTotalUsed, $SwapTotal );
+	#	ramused=705MB;;;0;1840.34375 swapused=9MB;;;0;4003 memused=723.1796875MB;2760;3680;0;5844.339844 mapped=38MB;;;; committed_as=957MB;;;; pagetables=8.3515625MB;;;; shared=111MB;;;;
+		$message .= sprintf("|ramused=%d;;;0;%d", $MemUsed, $MemTotal);
+		$message .= sprintf(" swapused=%d;;;0;%d", $SwapUsed, $SwapTotal);
+		$message .= sprintf(" memused=%d;%d;%d;0;%d", $MemTotalTotalUsed, $w, $c, $MemTotal);
 	}
+ 	return $ret, $message;
 }
 
 sub check_uptime(){
@@ -351,20 +336,10 @@ sub check_mount() {
 	return $ret, $message;
 }
 
-sub check_if () {
+sub check_if() {
 	my $this = shift;
 	my ($interface, $w, $c) = @_;
-	my $os = $this->get_os();
-	if ($os eq 'linux') {
-		return $this->check_if_linux ($interface, $w, $c);
-	} elsif ($os eq 'freebsd') {
-	}
-}
-
-sub check_if_linux() {
-	my $this = shift;
-	my ($interface, $w, $c) = @_;
-	my ($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+	my ($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
 		$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress);
 	my ($speed, $duplex, $up, $mac);
 	my $ret = $OK; my $message = "";
@@ -385,9 +360,13 @@ sub check_if_linux() {
 			}
 			my ($intf, $values) = split (/:/, $line);
 			if ($intf eq $interface) {
+				my $DebugState = $DB::single;
+				$DB::single = 1;
 				$values =~ s/^\s+//;
-				($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
+				($rcvbytes, $rcvpackets, $rcverrs, $rcvdrops, $rcv, $rcvfifo, $rcvframe, $rcvcompress, $rcvmulticast,
 					$trbytes, $trpackets, $trerrs, $trdrops, $trfifo, $trcolls, $trcarrier, $trcompress) = split (/\s+/, $values);
+# 				if  ($count > $c) {$ret = $CRIT;}
+# 				elsif($count > $w) {$ret = $WARN;}
 			}
 
 		} elsif ($collectstate == 1) {
@@ -399,7 +378,6 @@ sub check_if_linux() {
 		} elsif ($collectstate == 2) {
 			last if ($line =~ /^\[(.*)\]/);
 			my ($key, $value) = split (':', $line, 2);
-			$value =~ s/^\s+//;
 			$speed  = $value if ($key =~ /\tSpeed/);
 			$duplex  = $value if ($key =~ /\tDuplex/);
 			$up  = $value if ($key =~ /\tLink detected/);
@@ -412,85 +390,55 @@ sub check_if_linux() {
 		$up = "down";
 		$ret = $CRIT;
 	}
+
+
+	$message .= sprintf ("[000] (%s) MAC: %s, %s, in : %.2f kB/s, out: %.2f kB/s", $up, $mac, $speed, $rcvbytes/1024, $trbytes/1024);
 	my $inerr = ($rcverrs + $rcvdrops)/$rcvpackets;
 	my $outerr = ($trerrs + $trdrops)/$trpackets;
-	if (($inerr > $c) || ($outerr > $c)) {$ret = $CRIT;}
-	if (($inerr > $w) || ($outerr > $w)) {$ret = $WARN;}
+	$message .= sprintf("in=%.4f;;;0;125000000", $rcvbytes);
 
-	$message .= sprintf ("[000] (%s) MAC: %s, %s, in: %.2f kB/s, out: %.2f kB/s", $up, $mac, $speed, $rcvbytes/1024, $trbytes/1024);
-	$message .= sprintf("|in=%.4f;;;0;125000000 indisc=%d;;;; inerr=%d;%.2f;%.2f;; out=%.4f;;;0;125000000", $rcvbytes, $rcvdrops, $inerr, $w, $c, $trbytes);
 
 	return $ret, $message;
 }
+# Inter-|   Receive                                                   |  Transmit
+#  face |      bytes packets errs drop fifo frame compressed multicast|   bytes packets errs drop fifo colls carrier compressed
+#     lo:    5058902   24373    0    0    0     0          0         0  5058902   24373    0    0    0     0       0          0
+# enp1s0: 1356938378 1464251    0    0    0     0          0     20422 90429330  810052    0    0    0     0       0          0
+# Output of check plugin	OK - [480] (up) MAC: 00:23:e9:fb:08:43, 1 Gbit/s, in: 5.88 kB/s, out: 6.46 kB/s
+# Service performance data	in=6019.828943;;;0;125000000 inucast=36.214211;;;; innucast=0;;;; indisc=0;;;; inerr=0;0.01;0.1;; out=6612.383693;;;0;125000000 outucast=38.503998;;;; \
+#	outnucast=0;;;; outdisc=0;;;; outerr=0;0.01;0.1;; outqlen=0;;;0;
 
-sub check_diskio () {
-	my $this = shift;
-
-	my $DebugState = $DB::single;
-	$DB::single = 1;
-	my $os = $this->get_os();
-	if ($os eq 'linux') {
-		return $this->check_diskio_linux();
-	} elsif ($os eq 'freebsd') {
-		return $this->check_diskio_freebsd();
-	}
-}
-
-sub check_diskio_linux() {
+sub check_zfs_mem() {
 	my $this = shift;
 	my $ret = $OK; my $message = "";
-	my ($major, $minor, $devname,
-		$readcompl, $readmerg, $readsect, $readtime,
-		$writecompl, $writemerg, $writesect, $writetime,
-		$iocount, $iotime, $ioweithtedtime);
 
-	my @lines = @{$this->{'sections'}{'diskstat'}};
-	logD(Dumper(@lines));
+	my @lines = @{$this->{'sections'}{'zfs_memory'}};
+	logD(Dumper($this->{'sections'}{'zfs_memory'}));
 
-	for (my $i=1; $i < scalar @lines; $i++) {	# start at 1, skip timestamp
-		my $line = $lines[$i];
-		$line =~ s/^\s+//;
-		last if $line =~ /dmsetup_info/;
-		($major, $minor, $devname,
-			$readcompl, $readmerg, $readsect, $readtime,
-			$writecompl, $writemerg, $writesect, $writetime,
-			$iocount, $iotime, $ioweithtedtime) = split (/\s+/, $line, 14);
-		if($devname !~ /[0-9]+/) {
-			last;
-		}
-	}
-	my $totalreadpersec = ($readcompl+$readmerg)/$readtime*1000;
-	my $totalwritepersec = ($writecompl+$writemerg)/$writetime*1000;
-
-	my $iorate = ( $readcompl+$readmerg+$writecompl+$writemerg)/$iotime;
-	$message .= sprintf("%.2f kB/s read, %.2f kB/s write, IOs %.2f/sec", $totalreadpersec/1024, $totalwritepersec/1024, $iorate);
-	$message .= sprintf("|read=%.4f;;;; write=%.4f", $totalreadpersec, $totalwritepersec);
+	my ($unused0, $physical_ram)	= split (' ', $lines[0]);
+	my ($unused1, $free_memory)	= split (' ', $lines[1]);
+	my ($unused2, $arc_size)		= split (' ', $lines[2]);
+	my ($unused3, $target_size)	= split (' ', $lines[3]);
+	my ($unused4, $zfs_arc_min)	= split (' ', $lines[4]);
+	my ($unused5, $zfs_arc_max)	= split (' ', $lines[5]);
+	my ($unused6, $mru_percent)	= split (' ', $lines[6]);
+	my ($unused7, $mfu_percent)	= split (' ', $lines[7]);
+	
+	$message .= sprintf ("Arc size %.2d MB", $arc_size / 1048576.0);
+	$message .= sprintf("|arc size=%dMB;0;0;%d;%d", $arc_size / 1048576.0, $zfs_arc_min / 1048576,  $zfs_arc_max / 1048576);
+	
 	return $ret, $message;
 }
 
-sub check_diskio_freebsd() {
-	my $this = shift;
-	my $ret = $OK; my $message = "";
-	my $read = 0;
-	my $written = 0;
-
-	my @lines = @{$this->{'sections'}{'statgrab_disk'}};
-
-	foreach my $line (@lines) {
-		if ($line =~ /read_bytes/) {
-			my ($key, $value) = split (/\s/, $line);
-			$read += $value;
-		}
-		if ($line =~ /write_bytes/) {
-			my ($key, $value) = split (/\s/, $line);
-			$written += $value;
-		}
-	}
 
 
 
-	return $ret, $message;
-}
+
+
+
+
+
+
 
 
 
