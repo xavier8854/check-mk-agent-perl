@@ -1,0 +1,94 @@
+#!/bin/bash
+
+###########################################################################
+# $Id: check_mk_smart_plugin, v0.9 r1 04/03/2019 13:15:00 CET XH Exp $
+#
+# Copyright 2019 Xavier Humbert <xavier.humbert@ac-nancy-metz.fr>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+# * Redistributions of source code must retain the above copyright
+#   notice, this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above
+#   copyright notice, this list of conditions and the following disclaimer
+#   in the documentation and/or other materials provided with the
+#   distribution.
+# * Neither the name of the Academie de Nancy Metz nor the names of its
+#   contributors may be used to endorse or promote products derived from
+#   this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#
+###########################################################################
+
+# Put me in /usr/local/lib/check_mk_agent/plugins
+
+## CONSTANTS
+
+smartctl="/usr/sbin/smartctl"
+## VARIABLES
+rc=0
+
+## FUNCTIONS
+trim_junk="tail -n +4"
+
+## MAIN
+
+tmpfile="$(mktemp -t dailyXXX)"
+trap "rm -f ${tmpfile}" 0 1 3 15
+
+# works only for FreeBSD
+# smart_devices="$(sysctl -n kern.disks | sed -E 's/[[:<:]](cd|ar)[0-9]+//g')"
+# for testing purpose
+smart_devices="sda1 sda5"
+
+: ${status_smartctl_flags="-H"}
+: ${status_smartctl_extra_status_flags="-a"}
+
+echo "<<<smart>>>"
+
+for device in ${smart_devices}; do
+	device="/dev/${device}"
+
+	if [ -e ${device} ]; then
+		# echo -n "Checking health of ${device}"
+		# if [ -n "${devflags}" ]; then
+			# echo -n " (${devflags})"
+		# fi
+		# echo -n ": "
+		sudo ${smartctl} ${devflags} ${status_smartctl_flags} ${device} > "${tmpfile}"
+		status=$?
+		if [ ${status} -eq 0 ]; then
+			echo "$device OK"
+		elif [ ${status} -eq 32 ]; then
+			echo "$device OK (but has failed in the past)"
+		elif [ $((status & 3)) -ne 0 ]; then
+			rc=2
+			${trim_junk} "${tmpfile}"
+		elif [ `grep -c '^SMART support is: Unavailable' ${tmpfile}` -eq 1 ] ; then
+			rc=2
+		echo "N/A"
+		else
+			rc=1
+			sudo ${smartctl} ${devflags} ${status_smartctl_extra_status_flags} ${device} | ${trim_junk}
+		fi
+	fi
+
+
+done
+
+
+exit $rc
