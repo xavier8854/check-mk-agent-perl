@@ -38,7 +38,7 @@ use strict;
 use File::Basename;
 use Nagios::Plugin;
 use lib '.';
-use check_mk_agent;
+use check_mk_check;
 
 #####
 ## PROTOS
@@ -91,7 +91,7 @@ my $port = $np->opts->get('p');
 $DEBUG = $np->opts->get('debug');
 $verbose = $np->opts->verbose;
 
-my $checker = check_mk_agent->new(PeerAddr => $host, PeerPort => $port, debug => $DEBUG);
+my $checker = check_mk_check->new(PeerAddr => $host, PeerPort => $port, debug => $DEBUG);
 my ($status, $message) = $checker->check_uptime();
 
 $np->nagios_exit($status, $message );

@@ -32,7 +32,7 @@
 #
 ###########################################################################
 
-package check_mk_agent;
+package check_mk_check;
 our $VERSION = '0.9a1';
 use strict;
 use warnings;
@@ -506,10 +506,10 @@ sub check_zfs_mem() {
 	my ($unused5, $zfs_arc_max)	= split (' ', $lines[5]);
 	my ($unused6, $mru_percent)	= split (' ', $lines[6]);
 	my ($unused7, $mfu_percent)	= split (' ', $lines[7]);
-	
+
 	$message .= sprintf ("Arc size %.2d MB", $arc_size / 1048576.0);
 	$message .= sprintf("|arc size=%dMB;0;0;%d;%d", $arc_size / 1048576.0, $zfs_arc_min / 1048576,  $zfs_arc_max / 1048576);
-	
+
 	return $ret, $message;
 }
 
