@@ -30,4 +30,4 @@ Then call it with something like :
 `    check_command          cmk_load!5!10`  
 `}`  
 
-In order to use the check\_mk plugins, follow the procedure adapted to your agent (usually xxTODOxx)
+In order to use the check\_mk plugins, follow the procedure adapted to your agent, by copying the plugin in the appropriate directory.
