@@ -12,22 +12,25 @@ The check\_mk plugins, however, are more tied to a particular OS, for example *z
 ## Usage
 Simply put the desired cmk\_xxx.pl files into your nagios plugins directory (usually */usr/local/libexec/nagios/* on FreeBSD, or */usr/lib64/nagios/plugins/* on Linux).
 
-Then call it fom Icinga2 or Icinga1/Nagios with the appropriate options, usually  
-`cmk_xxx.pl -H hostname [-c critical value -w warning value]`
+Then call it fom Icinga2 or Icinga1/Nagios with the appropriate options, usually
+cmk_xxx.pl -H hostname [-c critical value -w warning value]
 
-Example (Icinga1/Nagios) :  
-`define command {`  
-`    command_name    cmk_load`  
-`    command_line    $USER1$/cmk_load.pl -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$`  
-`}`  
+Example (Icinga1/Nagios) :
+```
+define command {
+    command_name    cmk_load
+    command_line    $USER1$/cmk_load.pl -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$
+}
 where $USER1$ is your plugins path as above.
-
-Then call it with something like :  
-`define service {`  
-`    service_description    Load as reported by Check_Mk agent`  
-`    use                    default_service`  
-`    host_name              myhostname`  
-`    check_command          cmk_load!5!10`  
-`}`  
+```
+Then call it with something like :
+```
+define service {
+    service_description    Load as reported by Check_Mk agent
+    use                    default_service
+    host_name              myhostname
+    check_command          cmk_load!5!10
+}
+```
 
 In order to use the check\_mk plugins, follow the procedure adapted to your agent, by copying the plugin in the appropriate directory.
