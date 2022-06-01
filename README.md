@@ -21,8 +21,9 @@ define command {
     command_name    cmk_load
     command_line    $USER1$/cmk_load.pl -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$
 }
-where $USER1$ is your plugins path as above.
 ```
+where $USER1$ is your plugins path as above.
+
 Then call it with something like :
 ```
 define service {

@@ -19,4 +19,4 @@ tgz
 # Répertoire Attic
 Attic
 IGNORE
-/Attic/
+/Attic/*
